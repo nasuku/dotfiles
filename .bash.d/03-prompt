@@ -1,0 +1,43 @@
+# Setup some of my own personal preferences
+
+case "$TERM" in
+    xterm-kitty|xterm-color|screen|rxvt|rxvt-unicode|screen-256color|xterm-256color)
+        clr_red='\[\033[01;31m\]'
+        clr_green='\[\033[01;32m\]'
+        clr_blue='\[\033[01;34m\]'
+        clr_end='\[\033[00m\]'
+        PS1="[\\t ${clr_red}\\u${clr_end}@${clr_red}\\h${clr_end} ${clr_blue}\\W${clr_end}]\\$ "
+        ;;
+    *)
+        PS1="[\\t \\u@\\h \\W]\\$ "
+        ;;
+esac
+
+# Before each prompt, echo an escape sequence telling xterm or screen that
+# a prompt is coming up, so that it can recognize command names
+case "$TERM" in
+    xterm*|rxvt*)
+        # For xterm, the sequence '\033]0;<string>\007' sets the title
+        # to <string>
+        PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}: ${PWD/$HOME/~}\007"'
+        ;;
+    screen)
+        # For screen, the sequence '\033_<string>\033\0134' sets the
+        # hardstatus to <string>
+        # the sequence '\033k<string>\033\0134' sets the title to <string>
+        # the sequence '\033k\033\0134' causes screen to take the title
+        # from the next command entered
+        PROMPT_COMMAND='echo -ne "\033_[Screen n] t ${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\0134\033k\033\0134"'
+        ;;
+    *)
+        ;;
+esac
+
+# Unset command_not_found_handle
+# On Ubuntu, this function prints a message explaining
+# how to install commands that aren't currently installed.
+# I find it annoying.
+unset command_not_found_handle
+
+# Tell vim that this is a shell script
+# vi:set ft=sh:

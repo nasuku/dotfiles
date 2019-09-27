@@ -1,4 +1,4 @@
-EXCLUDED_DOTFILES := .git .git-crypt .gitattributes .gitignore .gitmodules .ssh
+EXCLUDED_DOTFILES := .git .git-crypt .gitattributes .gitignore .gitmodules .ssh . ..
 DOTFILES := $(addprefix ~/, $(filter-out $(EXCLUDED_DOTFILES), $(wildcard .*)))
 
 # everything, geared towards to be run for setup and maintenance
@@ -7,13 +7,17 @@ all: \
 	casks \
 	fonts \
 	bash \
-	ruby \
 	vim \
 	tmux \
 	dotfiles \
 	defaults \
 	docker \
+	kube \
+	golang \
+	gotools \
 	harder
+
+
 
 # bootstrap only, add one-time bootstrap tasks here
 # setups everything
@@ -42,21 +46,21 @@ brew: \
 	# install readline, useful in combination with ruby-build because it will link ruby installations to it
 	brew install readline
 	# install direnv for project specific .envrc support
-	brew install direnv
+	#brew install direnv
 	# postgres
-	brew install postgres 
+	#brew install postgres
 	# mysql
-	brew install mysql
+	#brew install mysql
 	# redis
-	brew install redis
+	#brew install redis
 	# sed, stream editor, but replace mac os version
-	brew install gnu-sed --with-default-names
+	brew install gnu-sed
 	# erlang programming language
-	brew install erlang
+	#brew install erlang
 	# elixir programming language
-	brew install elixir
+	#brew install elixir
 	# handle amazon web services related stuff
-	brew install awscli
+	#brew install awscli
 	# handle json on the command line
 	brew install jq --HEAD
 	# pipeviewer allows to display throughput/eta information on unix pipes
@@ -66,64 +70,116 @@ brew: \
 	# watch is great for building an overview on running stuff
 	brew install watch
 	# nmap is great for test and probing network related stuff
-	brew install nmap
+	#brew install nmap
 	# curl is a http development essential
 	brew install curl
 	# hugo is my blogging engine
 	brew install hugo
 	# jenv manages different java versions
-	brew install jenv
+	#brew install jenv
+	# an easy script to switch the default browser
+	brew install defaultbrowser
+	# fuzzy finder to find stuff easy from bash
+	brew install fzf
+	# to ocr my pdf files automatically
+	brew install ocrmypdf
+	# very good code search tool
+	brew install the_silver_searcher
+	# good backup program
+	brew install rsnapshot
+	# sshpass to easily script ssh login with a password in dev environments
+	brew install sshpass
+	# taskwarrior for command-line based task tracking
+	brew install task
+	# readline wrapper for some tools which are not readline aware
+	#brew install rlwrap
+	# plantuml to generate uml diagrams from domain specific language
+	#brew install plantuml
+	# arch decision record
+	brew install adr-tools
 
 /usr/local/bin/brew:
 	ruby -e "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 	brew analytics off
+
+golang: /usr/local/bin/brew
+	# language
+	brew install golang
+	# awesome linter
+	brew install golangci/tap/golangci-lint
 
 casks: \
 	/usr/local/bin/brew
 	# tap homebrew-cask to install other osx related stuff
 	brew tap caskroom/cask
 	# spectacle for mac osx window management/tiling
-	brew cask install spectacle
+	#brew cask install spectacle
 	# opera for browsing the web
-	brew cask install opera
+	#brew cask install opera
 	# dropbox synchronised files across devices
 	brew cask install dropbox
 	# 1password is an excellent password manager
-	brew cask install 1password
+	#brew cask install 1password
 	# gpg-suite provide me with all gpp related things
-	brew cask install gpg-suite
+	#brew cask install gpg-suite
 	# virtualbox to handle virtual machines
-	brew cask install virtualbox
+	#brew cask install virtualbox
 	# handle google cloud related stuff
-	brew cask install google-cloud-sdk
+	#brew cask install google-cloud-sdk
 	# adium is a nice chat client
-	brew cask install adium
+	#brew cask install adium
 	# I do some JRuby development where java comes in handy :)
-	brew cask install java
+	#brew cask install java
 	# Skype is still used by many of my friends :)
-	brew cask install skype
+	#brew cask install skype
 	# VLC an excellent video player
-	brew cask install vlc
+	#brew cask install vlc
 	# TextMate is an excellent GUI based editor
-	brew cask install textmate
+	#brew cask install textmate
 	# Flux reduces blue/green colors on the display spectrum and helps me sleep better
 	brew cask install flux
 	# slack is my preferred team chat
 	brew cask install slack
 	# launchbar is my preferred app launcher/clipboard history, calculator and goto mac utility
-	brew cask install launchbar
+	#brew cask install launchbar
 	# graphiql helps debugging graphql based apis
 	brew cask install graphiql
 	# sequel-pro is a great graphical MySQL client
 	brew cask install sequel-pro
 	# postico is a great graphical PostgreSQL client
-	brew cask install postico
+	#brew cask install postico
 	# itsycal is a nice menu bar clock replacement that features a calendar with events from iCal
-	brew cask install itsycal
+	#brew cask install itsycal
 	# macdown is a nice markdown editor, I use it to write my articles/presentation scripts
-	brew cask install macdown
+	#brew cask install macdown
 	# Dash gives your Mac instant offline access to 200+ API documentation sets.
-	brew cask install dash
+	#brew cask install dash
+	# nvalt is fantastic note taking tool
+	brew cask install nvalt
+	# to browse sqlite databases
+	brew cask install db-browser-for-sqlite
+	# iterm terminal emulator
+	brew cask install iterm2
+	# firefox browser
+	brew cask install firefox
+	# postman tool for REST
+	brew cask install postman
+	# encrypted disks - now can use macos native
+	# brew cask install veracrypt
+	# skim pdf reader
+	brew cask install skim
+	#password storage like 1password
+	brew cask install keepassxc
+	#goland ide - the best for golang
+	brew cask install goland
+	#appcleaner to be able to much more cleanly uninstall stuff
+	brew cask uninstall appcleaner
+	# tool to control window placement with keyboard - like spectacle
+	brew cask install slate
+	# text expansion tool
+	brew cask install atext
+	# UI designs
+	# brew cask install zeplin
 
 fonts: \
 	/usr/local/bin/brew
@@ -133,6 +189,8 @@ fonts: \
 	brew cask install font-ibm-plex
 	# install Adobe Source Code Pro, an excellent mono space font for programming
 	brew cask install font-source-code-pro
+	brew cask install font-anonymous-pro
+	brew cask install font-anonymouspro-nerd-font
 
 bash:
 	# newer version of bash
@@ -179,20 +237,18 @@ vim-itself:
 	brew install vim
 	# create vim directories
 	mkdir -p ~/.vim/tmp/{backup,swap,undo}
+	mkdir -p ~/.backup/vim/undo
 
 vim-plugins: \
-	~/.vim/bundle/Vundle.vim
+	~/.vim/autoload/plug.vim
 	# disable colorscheme for installing plugins to a temporary .vimrc
 	sed 's/colorscheme/"colorscheme/' .vimrc > /tmp/.vimrc
 	# install plugins with temporary vimrc
-	vim -u /tmp/.vimrc +PluginInstall +qall
+	vim -u /tmp/.vimrc +PlugInstall +qall
 	-rm /tmp/.vimrc
-	# post installation steps of command-t (use the ruby that ships with vim)
-	cd ~/.vim/bundle/command-t/ruby/command-t/ext/command-t && /usr/local/opt/ruby/bin/ruby extconf.rb && make
 
-# install vundle, a vim package manager
-~/.vim/bundle/Vundle.vim:
-	git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+~/.vim/autoload/plug.vim:
+	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 tmux: \
 	~/.tmux.conf \
@@ -201,6 +257,7 @@ tmux: \
 defaults: \
 	defaults-Dock \
 	defaults-NSGlobalDomain \
+	defaults-trackpad \
 	defaults-Calendar
 	# Show remaining battery time; hide percentage
 	defaults write com.apple.menuextra.battery ShowPercent -string "NO"
@@ -261,7 +318,7 @@ defaults-Dock:
 	# Enable the 2D Dock
 	defaults write com.apple.dock no-glass -bool true
 	# Automatically hide and show the Dock
-	defaults write com.apple.dock autohide -bool true
+	defaults write com.apple.dock autohide -bool false
 	# Make Dock icons of hidden applications translucent
 	defaults write com.apple.dock showhidden -bool true
 	# Enable highlight hover effect for the grid view of a stack (Dock)
@@ -274,10 +331,13 @@ defaults-Dock:
 	defaults write com.apple.dock launchanim -bool false
 	# clean up right side (persistent)
 	-defaults delete com.apple.dock persistent-others
+	# left side
+	defaults write com.apple.dock orientation -string "left"
+	defaults write com.apple.dock magnification -int 1
 	# and add these folders
-	defaults write com.apple.dock persistent-others -array-add "$$(echo '{"tile-type": "directory-tile", "tile-data": {"displayas": 0, "file-type":2, "showas":1, "file-label":"Dropbox", "file-data":{"_CFURLString":"file:///Users/lukas/Dropbox/","_CFURLStringType":15}}}' | plutil -convert xml1 - -o -)";
-	defaults write com.apple.dock persistent-others -array-add "$$(echo '{"tile-type": "directory-tile", "tile-data": {"displayas": 0, "file-type":2, "showas":1, "file-label":"Desktop", "file-data":{"_CFURLString":"file:///Users/lukas/Desktop/","_CFURLStringType":15}}}' | plutil -convert xml1 - -o -)";
-	defaults write com.apple.dock persistent-others -array-add "$$(echo '{"tile-type": "directory-tile", "tile-data": {"displayas": 0, "file-type":2, "showas":1, "file-label":"Downloads", "file-data":{"_CFURLString":"file:///Users/lukas/Downloads/","_CFURLStringType":15}}}' | plutil -convert xml1 - -o -)";
+	defaults write com.apple.dock persistent-others -array-add "$$(echo '{"tile-type": "directory-tile", "tile-data": {"displayas": 0, "file-type":2, "showas":3, "file-label":"Dropbox", "file-data":{"_CFURLString":"file:///Users/Suresh/Dropbox/","_CFURLStringType":15}}}' | plutil -convert xml1 - -o -)";
+	defaults write com.apple.dock persistent-others -array-add "$$(echo '{"tile-type": "directory-tile", "tile-data": {"displayas": 1, "file-type":2, "showas":1, "file-label":"Desktop", "file-data":{"_CFURLString":"file:///Users/Suresh/Desktop/","_CFURLStringType":15}}}' | plutil -convert xml1 - -o -)";
+	defaults write com.apple.dock persistent-others -array-add "$$(echo '{"tile-type": "directory-tile", "tile-data": {"displayas": 0, "file-type":2, "showas":3, "file-label":"Downloads", "file-data":{"_CFURLString":"file:///Users/Suresh/Downloads/","_CFURLStringType":15}}}' | plutil -convert xml1 - -o -)";
 	# restart dock
 	killall Dock
 
@@ -319,6 +379,36 @@ defaults-NSGlobalDomain:
 	# Finder: show all filename extensions
 	defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
+defaults-trackpad:
+	# Trackpad settings
+	defaults write com.apple.AppleMultitouchTrackpad ActuateDetents -int 1
+	defaults write com.apple.AppleMultitouchTrackpad Clicking -int 1
+	defaults write com.apple.AppleMultitouchTrackpad DragLock -int 0
+	defaults write com.apple.AppleMultitouchTrackpad Dragging -int 0
+	defaults write com.apple.AppleMultitouchTrackpad FirstClickThreshold -int 1
+	defaults write com.apple.AppleMultitouchTrackpad ForceSuppressed -int 0
+	defaults write com.apple.AppleMultitouchTrackpad SecondClickThreshold -int 1
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadCornerSecondaryClick -int 0
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadFiveFingerPinchGesture -int 2
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadFourFingerHorizSwipeGesture -int 2
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadFourFingerPinchGesture -int 2
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadFourFingerVertSwipeGesture -int 2
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadHandResting -int 1
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadHorizScroll -int 1
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadMomentumScroll -int 1
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadPinch -int 1
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadRightClick -int 1
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadRotate -int 1
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadScroll -int 1
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerDrag -int 1
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerHorizSwipeGesture -int 0
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerTapGesture -int 0
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerVertSwipeGesture -int 0
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingersRightClick -int 0
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadTwoFingerDoubleTapGesture -int 1
+	defaults write com.apple.AppleMultitouchTrackpad TrackpadTwoFingerFromRightEdgeSwipeGesture -int 3
+	defaults write com.apple.AppleMultitouchTrackpad USBMouseStopsTrackpad -int 0
+
 defaults-Calendar:
 	# Show week numbers (10.8 only)
 	defaults write com.apple.iCal "Show Week Numbers" -bool true
@@ -342,7 +432,7 @@ dotfiles: $(DOTFILES)
 	@read -p "Where is .gnupg (from backup) located?" gnupg_source;
 	cp -v $$gnupg_source ~/.gnupg
 
-~/.%:
+$(DOTFILES):
 	cd ~ && ln -sv dotfiles/$(notdir $@) $@
 
 ~/.kube/bash_completion:
@@ -350,6 +440,9 @@ dotfiles: $(DOTFILES)
 
 docker:
 	brew cask install docker
+
+kube:
+	brew cask install kubectl
 
 # Here is a comprehensive guide: https://github.com/drduh/macOS-Security-and-Privacy-Guide
 # The following settings implement some basic security measures
@@ -367,9 +460,14 @@ harder: \
 	# Restart the firewall (this should remain last)
 	-sudo pkill -HUP socketfilterfw
 	# Enable touch id for sudo (if available)
-	-@test -f /usr/lib/pam/pam_tid.so* && (grep pam_tid.so /etc/pam.d/sudo || sudo /usr/local/bin/sed -e '2iauth       sufficient     pam_tid.so' -i /etc/pam.d/sudo)
+	-@test -f /usr/lib/pam/pam_tid.so* && (grep pam_tid.so /etc/pam.d/sudo || sudo /usr/local/bin/gsed -e '2iauth       sufficient     pam_tid.so' -i /etc/pam.d/sudo)
 
 harder-dns-resolver:
-	brew install knot-resolver
-	cp -v ~/dotfiles/etc/kresd/config /usr/local/etc/kresd/config
-	sudo brew services restart knot-resolver
+	#brew install knot-resolver
+	#cp -v ~/dotfiles/etc/kresd/config /usr/local/etc/kresd/config
+	#sudo brew services restart knot-resolver
+
+gotools: golang
+	# cleans up files with messy ascii codes
+	go get github.com/lunixbochs/vtclean/vtclean
+	go get github.com/jdkanani/commandcast

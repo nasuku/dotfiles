@@ -1,10 +1,10 @@
-# Overbryd's dotfiles
+# Suresh's dotfiles (fork of Overbryd's dotfiles)
 
 ## Bootstrap
 
 On a new mac, open a Terminal and run:
 
-    curl -O https://raw.githubusercontent.com/Overbryd/dotfiles/master/bootstrap.sh
+    curl -O https://raw.githubusercontent.com/nasuku/dotfiles/nasuku/bootstrap.sh
     chmod +x bootstrap.sh
     ./bootstrap.sh
 
@@ -49,6 +49,9 @@ Or upgrade all installed packages:
     └── encrypt.sh      # simple wrapper to encrypt sensitive files for storage
 
 ## Credits
+
+This is a fork of https://github.com/Overbryd/dotfiles
+I am removing stuff that I dont need
 
 This seletion of dotfiles and system settings would not be possible without the great examples provided by:
 

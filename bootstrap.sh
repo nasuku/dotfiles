@@ -19,5 +19,7 @@ PROD=$(softwareupdate -l |
 softwareupdate -i "$PROD" -v
 
 # clone my dotfiles and make them
-git clone git@github.com:Overbryd/dotfiles.git ~/dotfiles
+git clone git@github.com:nasuku/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+git checkout nasuku
 make -C ~/dotfiles bootstrap

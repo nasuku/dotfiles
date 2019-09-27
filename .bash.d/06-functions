@@ -1,0 +1,32 @@
+# this python script is a poor man's replacement for realpath
+lpwd() {
+    rel=$1
+    if [ $# -eq 0 ]
+    then
+         python -c "import os; print(os.path.realpath('.'))"
+    else
+         python -c "import os; print(os.path.realpath('$1'))"
+    fi
+}
+
+#function join_by { local IFS="$1"; shift; echo "$*"; }
+
+# convert a ps to that it can use the pocketmod folding format
+#pocketmod () {
+#    pstops '8:7,0,1,2,5,6,3,4' $1 | psnup -2 |pstops '2:0,1U(1w,1h)'| psnup -2 | psnup -2 > /tmp/1.ps
+#}
+
+#print a pdf like a book
+#pdfbookprint () {
+#    pdftops $1 - | psbook |psnup -2 -pletter |pstops '2:0,1U@1(21.6cm,28cm)' |lpr ;
+#}
+
+# create animated gif to cut-n-paste to github easily
+# try calling like: agif in.mov out.gif
+# https://gist.github.com/joyrexus/7042973
+agif() {
+    ffmpeg -i $1  -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > $2.gif
+}
+
+# Tell vim that this is a shell script
+# vi:set ft=sh:

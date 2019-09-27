@@ -2,18 +2,93 @@ config defaultToCurrentScreen true
 config nudgePercentOf screenSize
 config resizePercentOf screenSize
 
-alias full move screenOriginX;screenOriginY screenSizeX;screenSizeY
-alias thinleft move screenOriginX;screenOriginY screenSizeX/2.5;screenSizeY
-alias wideright move screenOriginX+screenSizeX/2.5;screenOriginY (screenSizeX/2.5)*1.5;screenSizeY
+alias right-bot move screenOriginX+screenSizeX/2;screenOriginY+screenSizeY/2    screenSizeX/2;screenSizeY/2
+alias right-top move screenOriginX+screenSizeX/2;screenOriginY                  screenSizeX/2;screenSizeY/2
+alias left-bot move screenOriginX;screenOriginY+screenSizeY/2                   screenSizeX/2;screenSizeY/2
+alias left-top move screenOriginX;screenOriginY                                 screenSizeX/2;screenSizeY/2
 
-layout twoapps "Terminal":REPEAT ${thinleft}
-layout twoapps "TextMate":REPEAT ${wideright}
+alias top-half move screenOriginX;screenOriginY                                 screenSizeX;screenSizeY/2
+alias bottom-half move screenOriginX;screenOriginY+screenSizeY/2                screenSizeX;screenSizeY/2
+alias left-half move screenOriginX;screenOriginY                                screenSizeX/2;screenSizeY
+alias right-half move screenOriginX+screenSizeX/2;screenOriginY                 screenSizeX/2;screenSizeY
 
-layout twoapps "Airmail":MAIN_FIRST ${thinleft}
-layout twoapps "Skype":REPEAT ${thinleft}
-layout twoapps "Sequel Pro":REPEAT ${wideright}
-layout twoapps "Google Chrome":REPEAT ${wideright}
+alias left-third move screenOriginX;screenOriginY                   screenSizeX/3;screenSizeY
+alias middle-third move screenOriginX+screenSizeX/3;screenOriginY                   screenSizeX/3;screenSizeY
+alias right-third move screenOriginX+2*screenSizeX/3;screenOriginY                   screenSizeX/3;screenSizeY
 
-bind esc:cmd layout twoapps
-bind 1:cmd ${thinleft}
-bind 2:cmd ${wideright}
+
+alias left-third-top move screenOriginX;screenOriginY                   screenSizeX/3;screenSizeY/2
+alias middle-third-top move screenOriginX+screenSizeX/3;screenOriginY                   screenSizeX/3;screenSizeY/2
+alias right-third-top move screenOriginX+2*screenSizeX/3;screenOriginY                   screenSizeX/3;screenSizeY/2
+alias left-third-bottom move screenOriginX;screenOriginY+screenSizeY/2                   screenSizeX/3;screenSizeY/2
+alias middle-third-bottom move screenOriginX+screenSizeX/3;screenOriginY+screenSizeY/2                   screenSizeX/3;screenSizeY/2
+alias right-third-bottom move screenOriginX+2*screenSizeX/3;screenOriginY+screenSizeY/2                   screenSizeX/3;screenSizeY/2
+
+alias maximize move screenOriginX;screenOriginY screenSizeX;screenSizeY
+alias next-screen throw next resize
+
+bind 1:ctrl;cmd;alt ${left-top}
+bind 2:ctrl;cmd;alt ${right-top}
+bind 3:ctrl;cmd;alt ${left-bot}
+bind 4:ctrl;cmd;alt ${right-bot}
+
+bind a:ctrl;cmd;alt ${left-third-top}
+bind s:ctrl;cmd;alt ${middle-third-top}
+bind d:ctrl;cmd;alt ${right-third-top}
+bind z:ctrl;cmd;alt ${left-third-bottom}
+bind x:ctrl;cmd;alt ${middle-third-bottom}
+bind c:ctrl;cmd;alt ${right-third-bottom}
+
+bind q:ctrl;cmd;alt ${left-third}
+bind w:ctrl;cmd;alt ${middle-third}
+bind e:ctrl;cmd;alt ${right-third}
+
+bind right:ctrl;cmd;alt ${right-half}
+bind left:ctrl;cmd;alt ${left-half}
+bind up:ctrl;cmd;alt ${top-half}
+bind down:ctrl;cmd;alt ${bottom-half}
+
+bind n:ctrl;cmd;alt ${next-screen}
+bind m:ctrl;cmd;alt ${maximize}
+
+## Resize Bindings
+#bind right:alt       resize +10% +0
+#bind left:alt        resize -10% +0
+#bind up:alt          resize +0   -10%
+#bind down:alt        resize +0   +10%
+#bind right:ctrl;alt  resize -10% +0 bottom-right
+#bind left:ctrl;alt   resize +10% +0 bottom-right
+#bind up:ctrl;alt     resize +0   +10% bottom-right
+#bind down:ctrl;alt   resize +0   -10% bottom-right
+#
+## Push Bindings
+#bind right:ctrl;cmd  push right bar-resize:screenSizeX/3
+#bind left:ctrl;cmd   push left  bar-resize:screenSizeX/3
+#bind up:ctrl;cmd     push up    bar-resize:screenSizeY/2
+#bind down:ctrl;cmd   push down  bar-resize:screenSizeY/2
+#
+## Nudge Bindings
+#bind right:shift;alt nudge +10% +0
+#bind left:shift;alt  nudge -10% +0
+#bind up:shift;alt    nudge +0   -10%
+#bind down:shift;alt  nudge +0   +10%
+#
+## Throw Bindings
+#bind 1:ctrl;alt         throw 0 resize
+#bind 2:ctrl;alt         throw 1 resize
+#bind 3:ctrl;alt         throw 2 resize
+#bind right:ctrl;alt;cmd throw right resize
+#bind left:ctrl;alt;cmd  throw left  resize
+#bind up:ctrl;alt;cmd    throw up    resize
+#bind down:ctrl;alt;cmd  throw down  resize
+#
+## Focus Bindings
+#bind right:cmd    focus right
+#bind left:cmd     focus left
+#bind up:cmd       focus up
+#bind down:cmd     focus down
+#bind up:cmd;alt   focus behind
+#bind down:cmd;alt focus behind
+#
+## Window Hints
+#bind esc:cmd hint

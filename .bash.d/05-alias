@@ -1,0 +1,25 @@
+alias make='nice -n 5 make -j10'
+alias d='dirs -v'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias pd=pushd
+alias v=vim
+alias vi=vim
+alias diff='diff -u'
+alias g='grep -ir'
+alias l='ls -aF'
+alias ll='ls -alF'
+# nice directory tree listing showing permissions, user, group and size (human readable)
+alias e="tree -L 1 --dirsfirst -shugp"
+# nice directory tree listing, but just 2 levels
+alias ee="tree -L 2 --dirsfirst"
+#alias gt='gotags -tag-relative=true -R=true -sort=true -f="tags" -fields=+l .'
+alias t=task
+alias d=docker
+alias ssh='ssh -oUserKnownHostsFile=/dev/null -o StrictHostKeyChecking=false'
+alias scp='scp -oUserKnownHostsFile=/dev/null -o StrictHostKeyChecking=false'
+alias ta='tmux -q has-session -t suresh > /dev/null 2>&1 && tmux attach-session -d -t suresh || tmux new-session -s suresh'
+
+# Tell vim that this is a shell script
+# vi:set ft=sh:

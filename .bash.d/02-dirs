@@ -1,0 +1,31 @@
+# When dirs is invoked with no arguments, run "dirs -v"
+dirs ()
+{
+    if [ "$#" -eq 0 ]; then
+        builtin dirs -v
+    else
+        builtin dirs "$@"
+    fi
+}
+
+# Override pushd to run "dirs -v" instead of plain dirs when it finishes
+pushd ()
+{
+    builtin pushd "$@" >/dev/null
+    if [ "$?" -eq 0 ]; then
+        builtin dirs -v
+    fi
+}
+
+# Override popd to run "dirs -v" instead of plain dirs when it finishes
+popd ()
+{
+    builtin popd "$@" >/dev/null
+    if [ "$?" -eq 0 ]; then
+        builtin dirs -v
+    fi
+}
+
+
+# Tell vim that this is a shell script
+# vi:set ft=sh:
