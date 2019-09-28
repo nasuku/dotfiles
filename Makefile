@@ -258,7 +258,8 @@ defaults: \
 	defaults-Dock \
 	defaults-NSGlobalDomain \
 	defaults-trackpad \
-	defaults-Calendar
+	defaults-Calendar \
+	defaults-iterm
 	# Show remaining battery time; hide percentage
 	defaults write com.apple.menuextra.battery ShowPercent -string "NO"
 	defaults write com.apple.menuextra.battery ShowTime -string "YES"
@@ -418,6 +419,9 @@ defaults-Calendar:
 	defaults write com.apple.iCal "first day of week" -int 1
 	# Show event times
 	defaults write com.apple.iCal "Show time in Month View" -bool true
+
+defaults-iterm:
+	defaults import com.googlecode.iterm2 prefs/com.googlecode.iterm2.plist
 
 dotfiles: $(DOTFILES)
 
