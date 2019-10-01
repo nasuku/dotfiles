@@ -180,6 +180,8 @@ casks: \
 	brew cask install atext
 	# UI designs
 	# brew cask install zeplin
+	# dozer allows u to hide icons on menu bar
+	brew cask install dozer
 
 fonts: \
 	/usr/local/bin/brew
