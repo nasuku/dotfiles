@@ -3,10 +3,10 @@ DOTFILES := $(addprefix ~/, $(filter-out $(EXCLUDED_DOTFILES), $(wildcard .*)))
 
 # everything, geared towards to be run for setup and maintenance
 all: \
+	bash \
 	brew \
 	casks \
 	fonts \
-	bash \
 	vim \
 	tmux \
 	dotfiles \
@@ -15,9 +15,17 @@ all: \
 	kube \
 	golang \
 	gotools \
+	misc \
 	harder
 
-
+misc:
+	# change default shell to bash
+	bash -c 'grep /usr/local/bin/bash /etc/shells || ( echo "/usr/local/bin/bash" | sudo tee -a /etc/shells )'
+	bash -c 'dscl . -read ~/ UserShell | grep /usr/local/bin/bash || ( chsh -s /usr/local/bin/bash ) '
+	# Enable HiDPI display modes (requires restart)
+	bash -c 'defaults read /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled | grep 1 || sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true'
+	# disable apple captive portal (seucrity issue)
+	bash -c 'defaults read /Library/Preferences/SystemConfiguration/com.apple.captive.control Active | grep 0 || sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false'
 
 # bootstrap only, add one-time bootstrap tasks here
 # setups everything
@@ -62,7 +70,7 @@ brew: \
 	# handle amazon web services related stuff
 	#brew install awscli
 	# handle json on the command line
-	brew install jq --HEAD
+	brew install jq
 	# pipeviewer allows to display throughput/eta information on unix pipes
 	brew install pv
 	# pstree is nice to look at
@@ -88,7 +96,7 @@ brew: \
 	# good backup program
 	brew install rsnapshot
 	# sshpass to easily script ssh login with a password in dev environments
-	brew install sshpass
+	brew install http://git.io/sshpass.rb
 	# taskwarrior for command-line based task tracking
 	brew install task
 	# readline wrapper for some tools which are not readline aware
@@ -173,7 +181,7 @@ casks: \
 	#goland ide - the best for golang
 	brew cask install goland
 	#appcleaner to be able to much more cleanly uninstall stuff
-	brew cask uninstall appcleaner
+	brew cask install appcleaner
 	# tool to control window placement with keyboard - like spectacle
 	brew cask install slate
 	# text expansion tool
@@ -194,13 +202,13 @@ fonts: \
 	brew cask install font-anonymous-pro
 	brew cask install font-anonymouspro-nerd-font
 
-bash:
+bash: /usr/local/bin/brew
 	# newer version of bash
 	brew install bash
 	brew install bash-completion
 	# change shell to homebrew bash
-	echo "/usr/local/bin/bash" | sudo tee -a /etc/shells
-	chsh -s /usr/local/bin/bash
+	#bash -c 'grep /usr/local/bin/bash /etc/shells || ( echo "/usr/local/bin/bash" | sudo tee -a /etc/shells )'
+	#bash -c 'dscl . -read ~/ UserShell | grep /usr/local/bin/bash || ( chsh -s /usr/local/bin/bash ) '
 
 ruby: \
 	~/.rbenv \
@@ -234,7 +242,7 @@ vim: \
 	vim-itself \
 	vim-plugins
 
-vim-itself:
+vim-itself: /usr/local/bin/brew
 	# newer version of vim
 	brew install vim
 	# create vim directories
@@ -252,8 +260,7 @@ vim-plugins: \
 ~/.vim/autoload/plug.vim:
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-tmux: \
-	~/.tmux.conf \
+tmux:  /usr/local/bin/brew ~/.tmux.conf
 	brew install tmux
 
 defaults: \
@@ -291,7 +298,7 @@ defaults: \
 	# Hide all desktop icons because who need 'em'
 	defaults write com.apple.finder CreateDesktop -bool false
 	# Enable HiDPI display modes (requires restart)
-	sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true
+	# bash -c 'defaults read /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled | grep 1 || sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true'
 	# Finder: disable window animations and Get Info animations
 	defaults write com.apple.finder DisableAllAnimations -bool true
 	# Finder: show hidden files by default
@@ -308,7 +315,7 @@ defaults: \
 	# Show the ~/Library folder
 	chflags nohidden ~/Library
 	# disable apple captive portal (seucrity issue)
-	sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
+	#bash -c 'defaults read /Library/Preferences/SystemConfiguration/com.apple.captive.control Active | grep 0 || sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false'
 	# setup Quad9 DNS
 	networksetup -setdnsservers Wi-Fi 9.9.9.9
 	# Keep this bit last
@@ -444,11 +451,11 @@ $(DOTFILES):
 ~/.kube/bash_completion:
 	kubectl completion bash > ~/.kube/bash_completion
 
-docker:
+docker: /usr/local/bin/brew
 	brew cask install docker
 
-kube:
-	brew cask install kubectl
+kube: /usr/local/bin/brew
+	brew install kubernetes-cli
 
 # Here is a comprehensive guide: https://github.com/drduh/macOS-Security-and-Privacy-Guide
 # The following settings implement some basic security measures
@@ -475,5 +482,5 @@ harder-dns-resolver:
 
 gotools: golang
 	# cleans up files with messy ascii codes
-	go get github.com/lunixbochs/vtclean/vtclean
-	go get github.com/jdkanani/commandcast
+	GOBIN=~/.bin go get github.com/lunixbochs/vtclean/vtclean
+	GOBIN=~/.bin go get github.com/jdkanani/commandcast

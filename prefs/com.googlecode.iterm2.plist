@@ -40683,8 +40683,6 @@
 			<string>kNextWindowPointerAction</string>
 		</dict>
 	</dict>
-	<key>PrefsCustomFolder</key>
-	<string>/Users/suresh/t</string>
 	<key>Print In Black And White</key>
 	<true/>
 	<key>PromptOnQuit</key>
