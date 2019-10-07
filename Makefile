@@ -190,6 +190,7 @@ casks: \
 	# brew cask install zeplin
 	# dozer allows u to hide icons on menu bar
 	brew cask install dozer
+	brew cask install whatsapp
 
 fonts: \
 	/usr/local/bin/brew
