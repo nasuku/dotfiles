@@ -118,8 +118,6 @@ golang: /usr/local/bin/brew
 
 casks: \
 	/usr/local/bin/brew
-	# tap homebrew-cask to install other osx related stuff
-	brew tap caskroom/cask
 	# spectacle for mac osx window management/tiling
 	#brew cask install spectacle
 	# opera for browsing the web
@@ -195,7 +193,7 @@ casks: \
 fonts: \
 	/usr/local/bin/brew
 	# tap homebrew-fonts to install freely available fonts
-	brew tap caskroom/fonts
+	brew tap homebrew/cask-fonts
 	# install IBM Plex, an excellent modern font (https://www.ibm.com/plex/)
 	brew cask install font-ibm-plex
 	# install Adobe Source Code Pro, an excellent mono space font for programming
