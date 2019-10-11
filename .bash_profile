@@ -5,7 +5,7 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 export PATH="$HOME/.bin:$PATH"
 
 export GOROOT=/usr/local/opt/go/libexec
-export GOPATH="$HOME/work"
+#export GOPATH="$HOME/work"
 export PATH="$GOPATH/bin:$PATH"
 
 # vim all the things
