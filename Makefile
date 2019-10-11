@@ -105,6 +105,7 @@ brew: \
 	#brew install plantuml
 	# arch decision record
 	brew install adr-tools
+	brew install vnc-viewer
 
 /usr/local/bin/brew:
 	ruby -e "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
