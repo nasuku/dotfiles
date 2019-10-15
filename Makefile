@@ -106,6 +106,8 @@ brew: \
 	# arch decision record
 	brew install adr-tools
 	brew install vnc-viewer
+	brew install kubectx
+	brew install packer
 
 /usr/local/bin/brew:
 	ruby -e "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -190,6 +192,7 @@ casks: \
 	# dozer allows u to hide icons on menu bar
 	brew cask install dozer
 	brew cask install whatsapp
+	brew cask install minikube
 
 fonts: \
 	/usr/local/bin/brew
