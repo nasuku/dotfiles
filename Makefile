@@ -320,7 +320,7 @@ defaults: \
 	# disable apple captive portal (seucrity issue)
 	#bash -c 'defaults read /Library/Preferences/SystemConfiguration/com.apple.captive.control Active | grep 0 || sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false'
 	# setup Quad9 DNS
-	networksetup -setdnsservers Wi-Fi 9.9.9.9
+	#networksetup -setdnsservers Wi-Fi 9.9.9.9
 	# Keep this bit last
 	# Kill affected applications
 	for app in Safari Finder Mail SystemUIServer; do killall "$$app" >/dev/null 2>&1; done
