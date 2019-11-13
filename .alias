@@ -1,0 +1,24 @@
+alias make='nice -n 5 make -j10'
+alias vi=vim
+alias diff='diff -u'
+#case insensitive search using ag
+alias g='ag -i'
+# show only matching files
+alias gl='ag -il'
+#alias g='grep -ir'
+
+#show the file type along with listing
+alias l='ls -F'
+alias ll='ls -alF'
+# nice directory tree listing showing permissions, user, group and size (human readable)
+alias e="tree -L 1 --dirsfirst -shugp"
+# nice directory tree listing, but just 2 levels
+alias ee="tree -L 2 --dirsfirst"
+alias t=task
+alias d=docker
+alias ssh='ssh -oUserKnownHostsFile=/dev/null -o StrictHostKeyChecking=false'
+alias scp='scp -oUserKnownHostsFile=/dev/null -o StrictHostKeyChecking=false'
+alias ta='tmux -q has-session -t suresh > /dev/null 2>&1 && tmux attach-session -d -t suresh || tmux new-session -s suresh'
+
+# Tell vim that this is a shell script
+# vi:set ft=sh:

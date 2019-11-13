@@ -3,7 +3,7 @@ DOTFILES := $(addprefix ~/, $(filter-out $(EXCLUDED_DOTFILES), $(wildcard .*)))
 
 # everything, geared towards to be run for setup and maintenance
 all: \
-	bash \
+	zsh \
 	brew \
 	casks \
 	fonts \
@@ -19,9 +19,6 @@ all: \
 	harder
 
 misc:
-	# change default shell to bash
-	bash -c 'grep /usr/local/bin/bash /etc/shells || ( echo "/usr/local/bin/bash" | sudo tee -a /etc/shells )'
-	bash -c 'dscl . -read ~/ UserShell | grep /usr/local/bin/bash || ( chsh -s /usr/local/bin/bash ) '
 	# Enable HiDPI display modes (requires restart)
 	bash -c 'defaults read /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled | grep 1 || sudo defaults write /Library/Preferences/com.apple.windowserver DisplayResolutionEnabled -bool true'
 	# disable apple captive portal (seucrity issue)
@@ -212,6 +209,13 @@ bash: /usr/local/bin/brew
 	# change shell to homebrew bash
 	#bash -c 'grep /usr/local/bin/bash /etc/shells || ( echo "/usr/local/bin/bash" | sudo tee -a /etc/shells )'
 	#bash -c 'dscl . -read ~/ UserShell | grep /usr/local/bin/bash || ( chsh -s /usr/local/bin/bash ) '
+
+zsh: /usr/local/bin/brew
+	@# install oh-my-zsh
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+	brew install zsh-completions
+	brew install zsh-syntax-highlighting
+	brew install zsh-autosuggestions
 
 ruby: \
 	~/.rbenv \
