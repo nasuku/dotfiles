@@ -105,6 +105,7 @@ brew: \
 	brew install vnc-viewer
 	brew install kubectx
 	brew install packer
+	brew install htop
 
 /usr/local/bin/brew:
 	ruby -e "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"

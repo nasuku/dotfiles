@@ -20,5 +20,8 @@ alias ssh='ssh -oUserKnownHostsFile=/dev/null -o StrictHostKeyChecking=false'
 alias scp='scp -oUserKnownHostsFile=/dev/null -o StrictHostKeyChecking=false'
 alias ta='tmux -q has-session -t suresh > /dev/null 2>&1 && tmux attach-session -d -t suresh || tmux new-session -s suresh'
 
+#htop always needs sudo
+alias htop='sudo htop'
+
 # Tell vim that this is a shell script
 # vi:set ft=sh:
