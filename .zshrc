@@ -70,7 +70,7 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 #plugins=(git)
 
-plugins=(sudo history taskwarrior gitfast osx common-aliases dirhistory)
+plugins=(fzf sudo history taskwarrior gitfast osx common-aliases dirhistory)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration

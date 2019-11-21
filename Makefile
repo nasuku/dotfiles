@@ -492,3 +492,4 @@ gotools: golang
 	# cleans up files with messy ascii codes
 	GOBIN=~/.bin go get github.com/lunixbochs/vtclean/vtclean
 	GOBIN=~/.bin go get github.com/jdkanani/commandcast
+	GOBIN=~/.bin go get github.com/mattn/goreman
