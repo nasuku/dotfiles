@@ -45,7 +45,9 @@ brew: \
 	# git-crypt for encrypted repository contents
 	brew install git-crypt
 	# install silver searcher, a very fast grep alternative
-	brew install ag
+	# brew install ag
+	# use ripgrep instead of ag
+	brew install rg
 	# tree, a nice directory tree listing
 	brew install tree
 	# install readline, useful in combination with ruby-build because it will link ruby installations to it
@@ -106,6 +108,13 @@ brew: \
 	brew install kubectx
 	brew install packer
 	brew install htop
+	brew install diff-so-fancy
+	brew install shyaml
+	brew install shfmt
+	brew install exiftool
+	brew install dupseek
+	# a better cat
+	brew install bat
 
 /usr/local/bin/brew:
 	ruby -e "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -491,5 +500,5 @@ harder-dns-resolver:
 gotools: golang
 	# cleans up files with messy ascii codes
 	GOBIN=~/.bin go get github.com/lunixbochs/vtclean/vtclean
-	GOBIN=~/.bin go get github.com/jdkanani/commandcast
+	GOBIN=~/.bin go get github.com/nasuku/commandcast
 	GOBIN=~/.bin go get github.com/mattn/goreman

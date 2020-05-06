@@ -2,9 +2,9 @@ alias make='nice -n 5 make -j10'
 alias vi=vim
 alias diff='diff -u'
 #case insensitive search using ag
-alias g='ag -i'
+alias g='rg -i'
 # show only matching files
-alias gl='ag -il'
+alias gl='rg -il'
 #alias g='grep -ir'
 
 #show the file type along with listing
@@ -22,6 +22,10 @@ alias ta='tmux -q has-session -t suresh > /dev/null 2>&1 && tmux attach-session 
 
 #htop always needs sudo
 alias htop='sudo htop'
+
+alias cat="bat"
+
+#function join_by { local IFS="$1"; shift; echo "$*"; }
 
 # Tell vim that this is a shell script
 # vi:set ft=sh:

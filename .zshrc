@@ -70,7 +70,7 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 #plugins=(git)
 
-plugins=(fzf sudo history taskwarrior gitfast osx common-aliases dirhistory)
+plugins=(fzf history taskwarrior gitfast osx common-aliases dirhistory)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -101,6 +101,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 export PATH="$HOME/.bin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
 export GOROOT=/usr/local/opt/go/libexec
 export PATH="$GOPATH/bin:$PATH"
 export EDITOR="vim"
@@ -121,7 +122,7 @@ load_files() {
 
 	for x in "${FILES[@]}"; do
 		[[ -f "$x" ]] && source "$x"
-		[[ -d "$x" ]] && source ${x}/*
+		[[ -d "$x" ]] && { for i in "${x}"/*; do source $i; done }
 	done
 }
 

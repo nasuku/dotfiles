@@ -47,7 +47,8 @@ set visualbell          " use visual bell instead of beeping
 set wildignore=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif " ignore these files when completing names and in explorer
 set wildmenu            " enhanced command completion
 set wrap                " need to wrap line to show the whole content"
-set grepprg=ag\ --vimgrep\ --smart-case
+set grepprg=rg\ --vimgrep\ --smart-case
+"set grepprg=ag\ --vimgrep\ --smart-case
 "set grepprg=ag\ -a\ --vimgrep
 set t_ut=               "  Disable Background Color Erase (BCE) so that color schemes
                         " work properly especially background color when
@@ -257,7 +258,7 @@ let g:go_highlight_extra_types = 1
 let g:go_highlight_generate_tags = 1
 let g:go_metalinter_autosave = 1
 "let g:go_metalinter_command = "gometalinter -Dvetshadow  --fast --vendor --vendored-linters -D vet -D errcheck -D gotype -D gocyclo -D gas -D gosec -e .pb.go "
-let g:go_metalinter_command = "golangci-lint run --fix --print-issued-lines=false "
+let g:go_metalinter_command = "golangci-lint run --fix --disable godot  --disable nestif --disable gomnd --print-issued-lines=false "
 "let g:go_metalinter_disabled = ['vet','vetshadow']
 
 augroup go

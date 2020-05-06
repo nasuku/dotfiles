@@ -14,7 +14,7 @@ pdfsma() {
     gs -dCompatibilityLevel=1.6 -dPDFA=2 -dPDFACompatibilityPolicy=1 -sColorConversionStrategy=RGB -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=out-$1 $1
 }
 
-#function join_by { local IFS="$1"; shift; echo "$*"; }
+function join_by { local IFS="$1"; shift; echo "$*"; }
 
 # convert a ps to that it can use the pocketmod folding format
 #pocketmod () {

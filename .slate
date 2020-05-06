@@ -24,6 +24,9 @@ alias left-third-bottom move screenOriginX;screenOriginY+screenSizeY/2          
 alias middle-third-bottom move screenOriginX+screenSizeX/3;screenOriginY+screenSizeY/2                   screenSizeX/3;screenSizeY/2
 alias right-third-bottom move screenOriginX+2*screenSizeX/3;screenOriginY+screenSizeY/2                   screenSizeX/3;screenSizeY/2
 
+alias left-twothird move screenOriginX;screenOriginY                   screenSizeX*2/3;screenSizeY
+alias right-twothird move screenOriginX+screenSizeX/3;screenOriginY                   screenSizeX*2/3;screenSizeY
+
 alias maximize move screenOriginX;screenOriginY screenSizeX;screenSizeY
 alias next-screen throw next resize
 
@@ -31,6 +34,8 @@ bind 1:ctrl;cmd;alt ${left-top}
 bind 2:ctrl;cmd;alt ${right-top}
 bind 3:ctrl;cmd;alt ${left-bot}
 bind 4:ctrl;cmd;alt ${right-bot}
+bind 5:ctrl;cmd;alt ${left-twothird}
+bind 6:ctrl;cmd;alt ${right-twothird}
 
 bind a:ctrl;cmd;alt ${left-third-top}
 bind s:ctrl;cmd;alt ${middle-third-top}
