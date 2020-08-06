@@ -14,6 +14,11 @@ pdfsma() {
     gs -dCompatibilityLevel=1.6 -dPDFA=2 -dPDFACompatibilityPolicy=1 -sColorConversionStrategy=RGB -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=out-$1 $1
 }
 
+# archival standard for pdf with all fonts embedded and better color quality but larger file size
+pdfarch() {
+    gs -sDEVICE=pdfwrite -dBATCH -dNOPAUSE -dSAFER -sColorConversionStrategy=UseDeviceIndependentColor -dCompatibilityLevel=1.6 -dPrinted=true -dPDFA=2 -sProcessColorModel=DeviceRGB -dPDFACompatibilityPolicy=1 -dDetectDuplicateImages -dFastWebView=true -dSubsetFonts=true -sOutputFile=out-$1 $1
+}
+
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
 # convert a ps to that it can use the pocketmod folding format

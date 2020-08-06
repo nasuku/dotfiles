@@ -40,3 +40,5 @@ done
 
 # Bash completion for brew installed tools
 [ -f /usr/local/bin/brew ] && source "$(brew --prefix)/etc/bash_completion"
+
+complete -C /usr/local/bin/terraform terraform

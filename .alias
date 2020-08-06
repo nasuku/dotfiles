@@ -6,6 +6,10 @@ alias g='rg -i'
 # show only matching files
 alias gl='rg -il'
 #alias g='grep -ir'
+alias k=kubectl
+alias kctx=kubectx
+alias kns=kubens
+alias tf=terraform
 
 #show the file type along with listing
 alias l='ls -F'

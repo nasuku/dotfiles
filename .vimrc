@@ -247,6 +247,7 @@ if has('unnamedplus')
 endif
 
 " vim-go
+"let g:go_fmt_command = "~/go/bin/gofumpt -s -w"
 let g:go_fmt_command = "goimports"
 let g:go_autodetect_gopath = 1
 let g:go_list_type = "quickfix"
@@ -258,7 +259,7 @@ let g:go_highlight_extra_types = 1
 let g:go_highlight_generate_tags = 1
 let g:go_metalinter_autosave = 1
 "let g:go_metalinter_command = "gometalinter -Dvetshadow  --fast --vendor --vendored-linters -D vet -D errcheck -D gotype -D gocyclo -D gas -D gosec -e .pb.go "
-let g:go_metalinter_command = "golangci-lint run --fix --disable godot  --disable nestif --disable gomnd --print-issued-lines=false "
+let g:go_metalinter_command = "golangci-lint run --fix --disable testpackage --disable godot  --disable nestif --disable gomnd --print-issued-lines=false "
 "let g:go_metalinter_disabled = ['vet','vetshadow']
 
 augroup go

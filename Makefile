@@ -67,7 +67,11 @@ brew: \
 	# elixir programming language
 	#brew install elixir
 	# handle amazon web services related stuff
-	#brew install awscli
+	brew tap weaveworks/tap
+	brew install weaveworks/tap/eksctl
+	brew install awscli
+	brew install aws-iam-authenticator
+	brew install terraform
 	# handle json on the command line
 	brew install jq
 	# pipeviewer allows to display throughput/eta information on unix pipes
