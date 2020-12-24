@@ -11,6 +11,7 @@ alias kctx=kubectx
 alias kns=kubens
 alias tf=terraform
 
+alias vpnrestart='automator ~/dotfiles/ncprestart.workflow/Contents/document.wflow'
 #show the file type along with listing
 alias l='ls -F'
 alias ll='ls -alF'

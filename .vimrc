@@ -47,7 +47,7 @@ set visualbell          " use visual bell instead of beeping
 set wildignore=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif " ignore these files when completing names and in explorer
 set wildmenu            " enhanced command completion
 set wrap                " need to wrap line to show the whole content"
-set grepprg=rg\ --vimgrep\ --smart-case
+set grepprg=rg\ -u\ --vimgrep\ --smart-case
 "set grepprg=ag\ --vimgrep\ --smart-case
 "set grepprg=ag\ -a\ --vimgrep
 set t_ut=               "  Disable Background Color Erase (BCE) so that color schemes
@@ -103,6 +103,7 @@ if has("user_commands")
 endif
 
 call plug#begin('~/.vim/plugged')
+    Plug 'vim-scripts/unicode.vim' " for unicodes/digraphs like  ✅ (with cntrl-v u2705)
     Plug 'godlygeek/tabular'
     " easy commenting
     Plug 'scrooloose/nerdcommenter'
@@ -248,16 +249,21 @@ endif
 
 " vim-go
 "let g:go_fmt_command = "~/go/bin/gofumpt -s -w"
+"
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "gopls"
+let g:go_gopls_gofumpt = 1
+let g:go_search_bin_path_first = 1
 let g:go_fmt_command = "goimports"
 let g:go_autodetect_gopath = 1
-let g:go_list_type = "quickfix"
+let g:go_list_type = "quickfix" " all listing happens with cnext. otherwise some use lnext and some cnext
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_generate_tags = 1
-let g:go_metalinter_autosave = 1
+"let g:go_metalinter_autosave = 1
 "let g:go_metalinter_command = "gometalinter -Dvetshadow  --fast --vendor --vendored-linters -D vet -D errcheck -D gotype -D gocyclo -D gas -D gosec -e .pb.go "
 let g:go_metalinter_command = "golangci-lint run --fix --disable testpackage --disable godot  --disable nestif --disable gomnd --print-issued-lines=false "
 "let g:go_metalinter_disabled = ['vet','vetshadow']
@@ -352,7 +358,7 @@ command! Fzfc call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard 
 "==== maps
 nmap <Leader>t <Plug>TaskList
 " grep for current word
-nmap <Leader>f :grep "\b<cword>\b" <CR>
+nmap <Leader>f :grep "<cword>" <CR>
 
 nmap <Leader>] :Fzfc<cr>
 nmap <Leader>e :FZFExecute<cr>

@@ -9,6 +9,8 @@ HISTSIZE=2000
 HISTFILESIZE=2000
 MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
 
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
 shopt -s cdspell
 shopt -s no_empty_cmd_completion
 shopt -s checkhash

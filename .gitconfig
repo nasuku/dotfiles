@@ -233,3 +233,5 @@
 	insteadOf = https://github.com/
 [pull]
 	ff = only
+[init]
+	templateDir = /Users/suresh/.git-template

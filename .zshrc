@@ -16,7 +16,10 @@ export ZSH="/Users/suresh/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="robbyrussell"
+#ZSH_THEME="agnoster"
+
 ZSH_THEME="powerlevel10k/powerlevel10k"
+#ZSH_THEME="random"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -124,8 +127,10 @@ load_files() {
 		/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 		/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
         ${HOME}/.zsh.d
+        ${HOME}/.allsh.d # both for zsh and bash
+        ${HOME}/.allsh.d.local # both for zsh and bash
+        ${HOME}/.zsh.d.local
         ${HOME}/.bash.d.local
-        ${HOME}/.alias
 	)
 
 	for x in "${FILES[@]}"; do

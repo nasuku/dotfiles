@@ -68,6 +68,7 @@ brew: \
 	#brew install elixir
 	# handle amazon web services related stuff
 	brew tap weaveworks/tap
+	# for aws
 	brew install weaveworks/tap/eksctl
 	brew install awscli
 	brew install aws-iam-authenticator
@@ -99,7 +100,8 @@ brew: \
 	# good backup program
 	brew install rsnapshot
 	# sshpass to easily script ssh login with a password in dev environments
-	brew install http://git.io/sshpass.rb
+	#brew install http://git.io/sshpass.rb #
+	brew install esolitos/ipa/sshpass
 	# taskwarrior for command-line based task tracking
 	brew install task
 	# readline wrapper for some tools which are not readline aware
@@ -119,6 +121,10 @@ brew: \
 	brew install dupseek
 	# a better cat
 	brew install bat
+	# node version manager
+	brew install n
+	# rust client for tldr
+	brew install tealdeer
 
 /usr/local/bin/brew:
 	ruby -e "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -160,6 +166,8 @@ casks: \
 	brew cask install flux
 	# slack is my preferred team chat
 	brew cask install slack
+	# hammerspoon to update the slack status from zoom
+	brew cask install hammerspoon
 	# launchbar is my preferred app launcher/clipboard history, calculator and goto mac utility
 	#brew cask install launchbar
 	# graphiql helps debugging graphql based apis
@@ -201,20 +209,28 @@ casks: \
 	# UI designs
 	# brew cask install zeplin
 	# dozer allows u to hide icons on menu bar
-	brew cask install dozer
+	# brew cask install dozer
 	brew cask install whatsapp
-	brew cask install minikube
+	#brew cask install minikube
+	brew cask install  kap
+	brew cask install alfred
+	brew cask install anki
+	# light weight vnc
+	#brew cask install xquartz x2goclient
 
 fonts: \
 	/usr/local/bin/brew
 	# tap homebrew-fonts to install freely available fonts
 	brew tap homebrew/cask-fonts
 	# install IBM Plex, an excellent modern font (https://www.ibm.com/plex/)
-	brew cask install font-ibm-plex
+	# brew cask install font-ibm-plex
 	# install Adobe Source Code Pro, an excellent mono space font for programming
-	brew cask install font-source-code-pro
-	brew cask install font-anonymous-pro
-	brew cask install font-anonymouspro-nerd-font
+	#brew cask install font-source-code-pro
+	#brew cask install font-anonymous-pro
+	brew cask install font-anonymice-nerd-font
+	brew cask install font-meslo-lg-nerd-font
+	brew cask install font-sauce-code-pro-nerd-font
+	brew cask install font-victor-mono-nerd-font
 
 bash: /usr/local/bin/brew
 	# newer version of bash

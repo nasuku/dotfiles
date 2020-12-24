@@ -6,7 +6,7 @@ export PATH="$HOME/.bin:$PATH"
 
 export GOROOT=/usr/local/opt/go/libexec
 #export GOPATH="$HOME/work"
-export PATH="$GOPATH/bin:$PATH"
+export PATH=$HOME/go/bin:$PATH
 
 # vim all the things
 export EDITOR="vim"
