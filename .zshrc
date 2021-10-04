@@ -84,6 +84,18 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(fzf history taskwarrior gitfast osx common-aliases dirhistory)
 source $ZSH/oh-my-zsh.sh
 
+### Fix slowness of pastes with zsh-syntax-highlighting.zsh
+pasteinit() {
+  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
+  zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
+}
+
+pastefinish() {
+  zle -N self-insert $OLD_SELF_INSERT
+}
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
+### Fix slowness of pastes
 # User configuration
 
 
@@ -113,7 +125,7 @@ source $ZSH/oh-my-zsh.sh
 
 export PATH="$HOME/.bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
-export GOROOT=/usr/local/opt/go/libexec
+#export GOROOT=/usr/local/opt/go/libexec
 export PATH="$GOPATH/bin:$PATH"
 export EDITOR="vim"
 export VISUAL="$EDITOR"
@@ -121,6 +133,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_COLLATE=C
 export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
+export GEM_HOME="$HOME/.gem"
 
 load_files() {
 	declare -a FILES=(
@@ -164,3 +177,10 @@ autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
 
 complete -o nospace -C /usr/local/bin/mc mc
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+    autoload -Uz compinit
+    compinit
+fi
+
+#export PATH="/usr/local/opt/go@1.15/bin:$PATH"

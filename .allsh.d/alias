@@ -11,7 +11,6 @@ alias kctx=kubectx
 alias kns=kubens
 alias tf=terraform
 
-alias vpnrestart='automator ~/dotfiles/ncprestart.workflow/Contents/document.wflow'
 #show the file type along with listing
 alias l='ls -F'
 alias ll='ls -alF'
@@ -29,6 +28,12 @@ alias ta='tmux -q has-session -t suresh > /dev/null 2>&1 && tmux attach-session 
 alias htop='sudo htop'
 
 alias cat="bat"
+
+case `uname` in
+Darwin)
+    alias flushdns='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder;say cache flushed'
+    ;;
+esac
 
 #function join_by { local IFS="$1"; shift; echo "$*"; }
 

@@ -109,6 +109,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'scrooloose/nerdcommenter'
     " Easily go to next/prev file,buffer,error etc
     Plug 'tpope/vim-unimpaired'
+    Plug 'tpope/vim-surround'
     " jump using ;;
     Plug 'vim-scripts/easymotion'
     " Edit directory entries using vim
@@ -118,7 +119,10 @@ call plug#begin('~/.vim/plugged')
     " buffer explorer
     Plug 'corntrace/bufexplorer'
     " colorscheme
-    Plug 'vim-scripts/Zenburn'
+    "Plug 'vim-scripts/Zenburn'
+    "Plug 'fatih/molokai'
+    "Plug 'ayu-theme/ayu-vim' " or other package manager
+    Plug 'NLKNguyen/papercolor-theme'
     " Diff directory entries recursively
     Plug 'vim-scripts/DirDiff.vim'
     " Align, justify and reformat
@@ -138,7 +142,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'godoctor/godoctor.vim'
     " GraphQL
     Plug 'jparise/vim-graphql'
-    Plug 'rking/ag.vim'
+    "Plug 'rking/ag.vim'
+    " plugin for editor config
+    Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 
 function! AirlineInit()
@@ -149,9 +155,9 @@ autocmd User AirlineAfterInit call AirlineInit()
 let g:airline_theme='dark'
 
 " search case sensitive if there is an uppercase letter
-let g:ag_prg="ag --vimgrep --smart-case"
+"let g:ag_prg="ag --vimgrep --smart-case"
 " highlight search term after searching
-let g:ag_highlight=1
+"let g:ag_highlight=1
 
 "When .vimrc is edited, reload it
 autocmd! bufwritepost vim source ~/.vimrc
@@ -192,8 +198,6 @@ endif
 command -range AlignFirstEquals :<line1>,<line2>Tabularize /^[^=]*\zs/
 command -range AlignFirstColon  :<line1>,<line2>Tabularize /^[^:]*\zs/
 
-
-
 " for C use // style of comments
 "let NERD_c_alt_style=1
 let g:NERDCustomDelimiters = {
@@ -214,6 +218,7 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 " let g:syntastic_ignore_files = [ '.c' ]
 " let g:syntastic_enable_signs=1
 "let s:supported_checkers = ["flake8", "pyflakes", "pylint"]
+let s:supported_checkers = ["flake8"]
 "let g:syntastic_python_checker = 'pylint'
 "let g:syntastic_python_python_exec = '//tools/python/bin/python'
 
@@ -223,7 +228,22 @@ if filereadable(vimrc_local)
 endif
 unlet vimrc_local
 
-colorscheme zenburn
+"colorscheme zenburn
+
+"set background=dark
+"set background=light
+"let g:molokai_original = 1
+"let g:rehash256 = 1
+"colorscheme molokai
+
+"set termguicolors     " enable true colors support
+"let ayucolor="light"  " for light version of theme
+"let ayucolor="mirage" " for mirage version of theme
+"let ayucolor="dark"   " for dark version of theme
+"colorscheme ayu
+
+set background=light
+colorscheme PaperColor
 
 function! ShowFuncName()
   let lnum = line(".")
@@ -248,13 +268,11 @@ if has('unnamedplus')
 endif
 
 " vim-go
-"let g:go_fmt_command = "~/go/bin/gofumpt -s -w"
 "
 let g:go_fmt_autosave = 1
 let g:go_fmt_command = "gopls"
 let g:go_gopls_gofumpt = 1
 let g:go_search_bin_path_first = 1
-let g:go_fmt_command = "goimports"
 let g:go_autodetect_gopath = 1
 let g:go_list_type = "quickfix" " all listing happens with cnext. otherwise some use lnext and some cnext
 let g:go_highlight_types = 1
@@ -263,10 +281,7 @@ let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
 let g:go_highlight_extra_types = 1
 let g:go_highlight_generate_tags = 1
-"let g:go_metalinter_autosave = 1
-"let g:go_metalinter_command = "gometalinter -Dvetshadow  --fast --vendor --vendored-linters -D vet -D errcheck -D gotype -D gocyclo -D gas -D gosec -e .pb.go "
 let g:go_metalinter_command = "golangci-lint run --fix --disable testpackage --disable godot  --disable nestif --disable gomnd --print-issued-lines=false "
-"let g:go_metalinter_disabled = ['vet','vetshadow']
 
 augroup go
   autocmd!

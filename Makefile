@@ -4,6 +4,7 @@ DOTFILES := $(addprefix ~/, $(filter-out $(EXCLUDED_DOTFILES), $(wildcard .*)))
 # everything, geared towards to be run for setup and maintenance
 all: \
 	zsh \
+	taps \
 	brew \
 	casks \
 	fonts \
@@ -15,7 +16,10 @@ all: \
 	kube \
 	golang \
 	gotools \
-	misc \
+	pytools \
+	misc
+
+disabled: \
 	harder
 
 misc:
@@ -33,102 +37,95 @@ bootstrap: \
 	~/.gnupg \
 	~/.ssh/config
 
-brew: \
-	/usr/local/bin/brew
-	# upgrade all installed packages
-	brew upgrade
-	# GNU coreutils instead of outdated mac os defaults
-	brew install coreutils
-	brew install moreutils
-	# newer version of git
-	brew install git
-	# git-crypt for encrypted repository contents
-	brew install git-crypt
-	# install silver searcher, a very fast grep alternative
-	# brew install ag
-	# use ripgrep instead of ag
-	brew install rg
-	# tree, a nice directory tree listing
-	brew install tree
-	# install readline, useful in combination with ruby-build because it will link ruby installations to it
-	brew install readline
-	# install direnv for project specific .envrc support
-	#brew install direnv
-	# postgres
-	#brew install postgres
-	# mysql
-	#brew install mysql
-	# redis
-	#brew install redis
-	# sed, stream editor, but replace mac os version
-	brew install gnu-sed
-	# erlang programming language
-	#brew install erlang
-	# elixir programming language
-	#brew install elixir
-	# handle amazon web services related stuff
-	brew tap weaveworks/tap
-	# for aws
-	brew install weaveworks/tap/eksctl
-	brew install awscli
-	brew install aws-iam-authenticator
-	brew install terraform
-	# handle json on the command line
-	brew install jq
-	# pipeviewer allows to display throughput/eta information on unix pipes
-	brew install pv
-	# pstree is nice to look at
-	brew install pstree
-	# watch is great for building an overview on running stuff
-	brew install watch
-	# nmap is great for test and probing network related stuff
-	#brew install nmap
-	# curl is a http development essential
-	brew install curl
-	# hugo is my blogging engine
-	brew install hugo
-	# jenv manages different java versions
-	#brew install jenv
-	# an easy script to switch the default browser
-	brew install defaultbrowser
-	# fuzzy finder to find stuff easy from bash
-	brew install fzf
-	# to ocr my pdf files automatically
-	brew install ocrmypdf
-	# very good code search tool
-	brew install the_silver_searcher
-	# good backup program
-	brew install rsnapshot
-	# sshpass to easily script ssh login with a password in dev environments
-	#brew install http://git.io/sshpass.rb #
-	brew install esolitos/ipa/sshpass
-	# taskwarrior for command-line based task tracking
-	brew install task
-	# readline wrapper for some tools which are not readline aware
-	#brew install rlwrap
-	# plantuml to generate uml diagrams from domain specific language
-	#brew install plantuml
-	# arch decision record
+brew: /usr/local/bin/brew
 	brew install adr-tools
-	brew install vnc-viewer
-	brew install kubectx
-	brew install packer
-	brew install htop
-	brew install diff-so-fancy
-	brew install shyaml
-	brew install shfmt
-	brew install exiftool
-	brew install dupseek
-	# a better cat
+	brew install angular-cli
+	brew install awscli
+	brew install bash
+	brew install bash-completion
 	brew install bat
-	# node version manager
+	brew install cdk8s
+	brew install coreutils
+	brew install defaultbrowser
+	brew install diff-so-fancy
+	brew install dupseek
+	brew install esolitos/ipa/sshpass
+	brew install exiftool
+	brew install flake8
+	brew install fzf
+	brew install git
+	brew install git-crypt
+	brew install git-extras
+	brew install golangci/tap/golangci-lint
+	brew install grafana
+	brew install helm
+	brew install htop
+	brew install hugo
+	brew install jinja2-cli
+	brew install jq
+	brew install k9s
+	brew install kubectx
+	brew install kudobuilder/tap/kudo-cli
+	brew install lftp
+	brew install minio-mc
+	brew install moreutils
+	brew install mosh
 	brew install n
-	# rust client for tldr
+	brew install ocrmypdf
+	brew install packer
+	brew install packer-completion
+	brew install pipenv
+	brew install pre-commit
+	brew install pstree
+	brew install pv
+	brew install ripgrep
+	brew install rsnapshot
+	brew install rustup
+	brew install shfmt
+	brew install shyaml
+	brew install staticcheck
+	brew install stern
+	brew install task
 	brew install tealdeer
+	brew install telnet
+	brew install terraform
+	brew install terraform-docs
+	brew install tflint
+	brew install tfsec
+	brew install tig
+	brew install tmux
+	brew install tree
+	brew install vim
+	brew install watch
+	brew install weaveworks/tap/eksctl
+	brew install wget
+	brew install youtube-dl
+	brew install zbar # for zbarimg tool to decode barcodes from img files
+	brew install zsh-autosuggestions
+	brew install zsh-completions
+	brew install zsh-syntax-highlighting
+	brew install zstd
 
 /usr/local/bin/brew:
 	ruby -e "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 	brew analytics off
+
+taps: /usr/local/bin/brew
+	brew tap colindean/fonts-nonfree
+	brew tap cuelang/tap
+	brew tap esolitos/ipa
+	brew tap golangci/tap
+	brew tap hashicorp/tap
+	brew tap homebrew/cask
+	brew tap homebrew/cask-fonts
+	brew tap homebrew/cask-versions
+	brew tap homebrew/core
+	brew tap homebrew/services
+	brew tap kudobuilder/tap
+	brew tap liamg/tfsec
+	brew tap mistertea/et
+	brew tap octave-app/octave-app
+	brew tap weaveworks/tap
 
 golang: /usr/local/bin/brew
 	# language
@@ -136,101 +133,49 @@ golang: /usr/local/bin/brew
 	# awesome linter
 	brew install golangci/tap/golangci-lint
 
-casks: \
-	/usr/local/bin/brew
-	# spectacle for mac osx window management/tiling
-	#brew cask install spectacle
-	# opera for browsing the web
-	#brew cask install opera
-	# dropbox synchronised files across devices
-	brew cask install dropbox
-	# 1password is an excellent password manager
-	#brew cask install 1password
-	# gpg-suite provide me with all gpp related things
-	#brew cask install gpg-suite
-	# virtualbox to handle virtual machines
-	#brew cask install virtualbox
-	# handle google cloud related stuff
-	#brew cask install google-cloud-sdk
-	# adium is a nice chat client
-	#brew cask install adium
-	# I do some JRuby development where java comes in handy :)
-	#brew cask install java
-	# Skype is still used by many of my friends :)
-	#brew cask install skype
-	# VLC an excellent video player
-	#brew cask install vlc
-	# TextMate is an excellent GUI based editor
-	#brew cask install textmate
-	# Flux reduces blue/green colors on the display spectrum and helps me sleep better
-	brew cask install flux
-	# slack is my preferred team chat
-	brew cask install slack
-	# hammerspoon to update the slack status from zoom
-	brew cask install hammerspoon
-	# launchbar is my preferred app launcher/clipboard history, calculator and goto mac utility
-	#brew cask install launchbar
-	# graphiql helps debugging graphql based apis
-	brew cask install graphiql
-	# sequel-pro is a great graphical MySQL client
-	brew cask install sequel-pro
-	# postico is a great graphical PostgreSQL client
-	#brew cask install postico
-	# itsycal is a nice menu bar clock replacement that features a calendar with events from iCal
-	#brew cask install itsycal
-	# macdown is a nice markdown editor, I use it to write my articles/presentation scripts
-	#brew cask install macdown
-	# Dash gives your Mac instant offline access to 200+ API documentation sets.
-	#brew cask install dash
-	# nvalt is fantastic note taking tool
-	brew cask install nvalt
-	# to browse sqlite databases
-	brew cask install db-browser-for-sqlite
-	# iterm terminal emulator
-	brew cask install iterm2
-	# firefox browser
-	brew cask install firefox
-	# postman tool for REST
-	brew cask install postman
-	# encrypted disks - now can use macos native
-	# brew cask install veracrypt
-	# skim pdf reader
-	brew cask install skim
-	#password storage like 1password
-	brew cask install keepassxc
-	#goland ide - the best for golang
-	brew cask install goland
-	#appcleaner to be able to much more cleanly uninstall stuff
-	brew cask install appcleaner
-	# tool to control window placement with keyboard - like spectacle
-	brew cask install slate
-	# text expansion tool
-	brew cask install atext
-	# UI designs
-	# brew cask install zeplin
-	# dozer allows u to hide icons on menu bar
-	# brew cask install dozer
-	brew cask install whatsapp
-	#brew cask install minikube
-	brew cask install  kap
-	brew cask install alfred
-	brew cask install anki
-	# light weight vnc
-	#brew cask install xquartz x2goclient
+casks: /usr/local/bin/brew
+	brew install adobe-digital-editions
+	brew install alfred
+	brew install appcleaner
+	brew install atext
+	brew install coconutbattery
+	brew install devdocs
+	brew install docker
+	brew install dropbox
+	brew install firefox
+	brew install flux
+	brew install flycut
+	brew install goland
+	brew install graphiql
+	brew install hammerspoon
+	brew install iterm2
+	brew install keepassxc
+	brew install notion
+	brew install nvalt
+	brew install octave-app
+	brew install osxfuse
+	brew install postman
+	brew install pycharm-ce
+	brew install skim
+	brew install slack
+	brew install slate
+	brew install spotify
+	brew install vlc
+	brew install vnc-viewer
+	brew install whatsapp
 
-fonts: \
-	/usr/local/bin/brew
+fonts: /usr/local/bin/brew
 	# tap homebrew-fonts to install freely available fonts
 	brew tap homebrew/cask-fonts
-	# install IBM Plex, an excellent modern font (https://www.ibm.com/plex/)
-	# brew cask install font-ibm-plex
-	# install Adobe Source Code Pro, an excellent mono space font for programming
-	#brew cask install font-source-code-pro
-	#brew cask install font-anonymous-pro
-	brew cask install font-anonymice-nerd-font
-	brew cask install font-meslo-lg-nerd-font
-	brew cask install font-sauce-code-pro-nerd-font
-	brew cask install font-victor-mono-nerd-font
+	brew install font-anonymice-nerd-font
+	brew install font-anonymous-pro
+	brew install font-anonymouspro-nerd-font
+	brew install font-meslo-lg-nerd-font
+	brew install font-microsoft-office
+	brew install font-sauce-code-pro-nerd-font
+	brew install font-source-code-pro
+	brew install font-victor-mono
+	brew install font-victor-mono-nerd-font
 
 bash: /usr/local/bin/brew
 	# newer version of bash
@@ -280,8 +225,8 @@ vim: \
 	vim-plugins
 
 vim-itself: /usr/local/bin/brew
-	# newer version of vim
-	brew install vim
+	# for mac
+	brew install macvim
 	# create vim directories
 	mkdir -p ~/.vim/tmp/{backup,swap,undo}
 	mkdir -p ~/.backup/vim/undo
@@ -522,3 +467,6 @@ gotools: golang
 	GOBIN=~/.bin go get github.com/lunixbochs/vtclean/vtclean
 	GOBIN=~/.bin go get github.com/nasuku/commandcast
 	GOBIN=~/.bin go get github.com/mattn/goreman
+
+pytools:
+	pip3 install -U pdf.tocgen
