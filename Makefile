@@ -28,15 +28,6 @@ misc:
 	# disable apple captive portal (seucrity issue)
 	bash -c 'defaults read /Library/Preferences/SystemConfiguration/com.apple.captive.control Active | grep 0 || sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false'
 
-# bootstrap only, add one-time bootstrap tasks here
-# setups everything
-# restore .gnupg and thus decrypt the secrets from this repository
-# setup ssh config (relies on decrypted repository)
-bootstrap: \
-	all \
-	~/.gnupg \
-	~/.ssh/config
-
 brew: /usr/local/bin/brew
 	brew install adr-tools
 	brew install angular-cli
@@ -105,6 +96,7 @@ brew: /usr/local/bin/brew
 	brew install zsh-completions
 	brew install zsh-syntax-highlighting
 	brew install zstd
+	brew install blackhole-2ch
 
 /usr/local/bin/brew:
 	ruby -e "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -417,15 +409,7 @@ defaults-iterm:
 dotfiles: $(DOTFILES)
 
 ~/.ssh/config:
-	# Test that .ssh/config is decrypted (gpg has been setup)
-	grep "Host *" ~/dotfiles/.ssh/config
-	# Symlink .ssh/config
-	cd ~/.ssh && ln -sv ../dotfiles/.ssh/config .
-
-~/.gnupg:
-	# Ask where to get .gnupg from
-	@read -p "Where is .gnupg (from backup) located?" gnupg_source;
-	cp -v $$gnupg_source ~/.gnupg
+	cp ssh_config ~/.ssh/config
 
 $(DOTFILES):
 	cd ~ && ln -sv dotfiles/$(notdir $@) $@
@@ -464,9 +448,9 @@ harder-dns-resolver:
 
 gotools: golang
 	# cleans up files with messy ascii codes
-	GOBIN=~/.bin go get github.com/lunixbochs/vtclean/vtclean
-	GOBIN=~/.bin go get github.com/nasuku/commandcast
-	GOBIN=~/.bin go get github.com/mattn/goreman
+	go get github.com/lunixbochs/vtclean/vtclean
+	go get github.com/nasuku/commandcast
+	go get github.com/mattn/goreman
 
 pytools:
 	pip3 install -U pdf.tocgen

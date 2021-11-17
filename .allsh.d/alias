@@ -35,6 +35,10 @@ Darwin)
     ;;
 esac
 
+function get_alias() {
+  eval "set -- $(alias -- "$1")"
+  eval 'printf "%s\n" "${'"$#"'#*=}"'
+}
 #function join_by { local IFS="$1"; shift; echo "$*"; }
 
 # Tell vim that this is a shell script

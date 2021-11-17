@@ -31,6 +31,18 @@ for file in "$HOME/.bash.d.local/"*; do
         . "$file"
     fi
 done
+for file in "$HOME/.allsh.d/"*; do
+    if [ -f "$file" ]; then
+        . "$file"
+    fi
+done
+# and in my .bash.d.local
+for file in "$HOME/.allsh.d.local/"*; do
+    if [ -f "$file" ]; then
+        . "$file"
+    fi
+done
+
 
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
