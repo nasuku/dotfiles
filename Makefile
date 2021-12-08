@@ -97,6 +97,8 @@ brew: /usr/local/bin/brew
 	brew install zsh-syntax-highlighting
 	brew install zstd
 	brew install blackhole-2ch
+	brew install crane # container management
+	brew install db-browser-for-sqlite # browse sqlite databases
 
 /usr/local/bin/brew:
 	ruby -e "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -418,7 +420,7 @@ $(DOTFILES):
 	kubectl completion bash > ~/.kube/bash_completion
 
 docker: /usr/local/bin/brew
-	brew cask install docker
+	brew install docker
 
 kube: /usr/local/bin/brew
 	brew install kubernetes-cli
