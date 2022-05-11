@@ -1,7 +1,6 @@
 [github]
     user = nasuku
     name = Suresh Kumar Nalluru
-    ;token = token
 [user]
     name = Suresh Kumar Nalluru
     email = nasuku@users.noreply.github.com
@@ -10,24 +9,11 @@
     whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
     excludesfile = ~/.gitignore
     attributesfile = ~/.gitattributes
-	pager = diff-so-fancy | less --tabs=4 -RFX
-;[sendemail]
-    ;smtpencryption = tls
-    ;smtpserver = smtp.gmail.com
-    ;smtpuser = 
-    ;smtppass = 
-    ;smtpserverport = 587
-;[web]
-    ;browser = google-chrome
-;[instaweb]
-    ;httpd = apache2 -f
-;[rerere]
-    ;enabled = 1
-    ;autoupdate = 1
+    pager = diff-so-fancy | less --tabs=4 -RFX
 [push]
     default = matching
 [color]
-    ui = auto
+	ui = true
 [color "branch"]
     current = yellow bold
     local = green bold
@@ -230,8 +216,15 @@
 [url "git://gist.github.com/"]
     insteadOf = "gist:"
 [url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
+    insteadOf = https://github.com/
 [pull]
-	ff = only
+    ff = only
 [init]
-	templateDir = /Users/suresh/.git-template
+    templateDir = /Users/suresh/.git-template
+[interactive]
+    diffFilter = diff-so-fancy --patch
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
