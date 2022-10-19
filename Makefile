@@ -28,7 +28,7 @@ misc:
 	# disable apple captive portal (seucrity issue)
 	bash -c 'defaults read /Library/Preferences/SystemConfiguration/com.apple.captive.control Active | grep 0 || sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false'
 
-brew: /usr/local/bin/brew
+brew: /opt/homebrew/bin/brew
 	brew install adr-tools
 	brew install angular-cli
 	brew install awscli
@@ -36,7 +36,7 @@ brew: /usr/local/bin/brew
 	brew install bash-completion
 	brew install bat
 	brew install cdk8s
-	brew install coreutils
+	brew install coreutils # gdate etc
 	brew install defaultbrowser
 	brew install diff-so-fancy
 	brew install dupseek
@@ -59,7 +59,7 @@ brew: /usr/local/bin/brew
 	brew install kudobuilder/tap/kudo-cli
 	brew install lftp
 	brew install minio-mc
-	brew install moreutils
+	brew install moreutils # vidir etc
 	brew install mosh
 	brew install n
 	brew install ocrmypdf
@@ -86,7 +86,6 @@ brew: /usr/local/bin/brew
 	brew install tig
 	brew install tmux
 	brew install tree
-	brew install vim
 	brew install watch
 	brew install weaveworks/tap/eksctl
 	brew install wget
@@ -99,12 +98,13 @@ brew: /usr/local/bin/brew
 	brew install blackhole-2ch
 	brew install crane # container management
 	brew install db-browser-for-sqlite # browse sqlite databases
+	brew install vegeta
 
-/usr/local/bin/brew:
-	ruby -e "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/opt/homebrew/bin/brew:
+	 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	brew analytics off
 
-taps: /usr/local/bin/brew
+taps: /opt/homebrew/bin/brew
 	brew tap colindean/fonts-nonfree
 	brew tap cuelang/tap
 	brew tap esolitos/ipa
@@ -121,13 +121,13 @@ taps: /usr/local/bin/brew
 	brew tap octave-app/octave-app
 	brew tap weaveworks/tap
 
-golang: /usr/local/bin/brew
+golang: /opt/homebrew/bin/brew
 	# language
 	brew install golang
 	# awesome linter
 	brew install golangci/tap/golangci-lint
 
-casks: /usr/local/bin/brew
+casks: /opt/homebrew/bin/brew
 	brew install adobe-digital-editions
 	brew install alfred
 	brew install appcleaner
@@ -147,7 +147,7 @@ casks: /usr/local/bin/brew
 	brew install notion
 	brew install nvalt
 	brew install octave-app
-	brew install osxfuse
+	brew install macfuse
 	brew install postman
 	brew install pycharm-ce
 	brew install skim
@@ -157,21 +157,22 @@ casks: /usr/local/bin/brew
 	brew install vlc
 	brew install vnc-viewer
 	brew install whatsapp
+	brew install vagrant
+	brew install utm
 
-fonts: /usr/local/bin/brew
+fonts: /opt/homebrew/bin/brew
 	# tap homebrew-fonts to install freely available fonts
 	brew tap homebrew/cask-fonts
 	brew install font-anonymice-nerd-font
 	brew install font-anonymous-pro
-	brew install font-anonymouspro-nerd-font
 	brew install font-meslo-lg-nerd-font
-	brew install font-microsoft-office
+	brew install colindean/fonts-nonfree/font-microsoft-office
 	brew install font-sauce-code-pro-nerd-font
 	brew install font-source-code-pro
 	brew install font-victor-mono
 	brew install font-victor-mono-nerd-font
 
-bash: /usr/local/bin/brew
+bash: /opt/homebrew/bin/brew
 	# newer version of bash
 	brew install bash
 	brew install bash-completion
@@ -179,7 +180,7 @@ bash: /usr/local/bin/brew
 	#bash -c 'grep /usr/local/bin/bash /etc/shells || ( echo "/usr/local/bin/bash" | sudo tee -a /etc/shells )'
 	#bash -c 'dscl . -read ~/ UserShell | grep /usr/local/bin/bash || ( chsh -s /usr/local/bin/bash ) '
 
-zsh: /usr/local/bin/brew
+zsh: /opt/homebrew/bin/brew
 	@# install oh-my-zsh
 	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
 	brew install zsh-completions
@@ -218,7 +219,7 @@ vim: \
 	vim-itself \
 	vim-plugins
 
-vim-itself: /usr/local/bin/brew
+vim-itself: /opt/homebrew/bin/brew
 	# for mac
 	brew install macvim
 	# create vim directories
@@ -236,7 +237,7 @@ vim-plugins: \
 ~/.vim/autoload/plug.vim:
 	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-tmux:  /usr/local/bin/brew ~/.tmux.conf
+tmux:  /opt/homebrew/bin/brew ~/.tmux.conf
 	brew install tmux
 
 defaults: \
@@ -321,9 +322,9 @@ defaults-Dock:
 	defaults write com.apple.dock orientation -string "left"
 	defaults write com.apple.dock magnification -int 1
 	# and add these folders
-	defaults write com.apple.dock persistent-others -array-add "$$(echo '{"tile-type": "directory-tile", "tile-data": {"displayas": 0, "file-type":2, "showas":3, "file-label":"Dropbox", "file-data":{"_CFURLString":"file:///Users/Suresh/Dropbox/","_CFURLStringType":15}}}' | plutil -convert xml1 - -o -)";
-	defaults write com.apple.dock persistent-others -array-add "$$(echo '{"tile-type": "directory-tile", "tile-data": {"displayas": 1, "file-type":2, "showas":1, "file-label":"Desktop", "file-data":{"_CFURLString":"file:///Users/Suresh/Desktop/","_CFURLStringType":15}}}' | plutil -convert xml1 - -o -)";
-	defaults write com.apple.dock persistent-others -array-add "$$(echo '{"tile-type": "directory-tile", "tile-data": {"displayas": 0, "file-type":2, "showas":3, "file-label":"Downloads", "file-data":{"_CFURLString":"file:///Users/Suresh/Downloads/","_CFURLStringType":15}}}' | plutil -convert xml1 - -o -)";
+	defaults write com.apple.dock persistent-others -array-add "$$(echo '{"tile-type": "directory-tile", "tile-data": {"displayas": 0, "file-type":2, "showas":3, "file-label":"Dropbox", "file-data":{"_CFURLString":"file:///Users/snalluru/Dropbox/","_CFURLStringType":15}}}' | plutil -convert xml1 - -o -)";
+	defaults write com.apple.dock persistent-others -array-add "$$(echo '{"tile-type": "directory-tile", "tile-data": {"displayas": 1, "file-type":2, "showas":1, "file-label":"Desktop", "file-data":{"_CFURLString":"file:///Users/snalluru/Desktop/","_CFURLStringType":15}}}' | plutil -convert xml1 - -o -)";
+	defaults write com.apple.dock persistent-others -array-add "$$(echo '{"tile-type": "directory-tile", "tile-data": {"displayas": 0, "file-type":2, "showas":3, "file-label":"Downloads", "file-data":{"_CFURLString":"file:///Users/snalluru/Downloads/","_CFURLStringType":15}}}' | plutil -convert xml1 - -o -)";
 	# restart dock
 	killall Dock
 
@@ -419,10 +420,11 @@ $(DOTFILES):
 ~/.kube/bash_completion:
 	kubectl completion bash > ~/.kube/bash_completion
 
-docker: /usr/local/bin/brew
+docker: /opt/homebrew/bin/brew
 	brew install docker
+	#brew install homebrew/cask/docker
 
-kube: /usr/local/bin/brew
+kube: /opt/homebrew/bin/brew
 	brew install kubernetes-cli
 
 # Here is a comprehensive guide: https://github.com/drduh/macOS-Security-and-Privacy-Guide
@@ -450,9 +452,11 @@ harder-dns-resolver:
 
 gotools: golang
 	# cleans up files with messy ascii codes
-	go get github.com/lunixbochs/vtclean/vtclean
-	go get github.com/nasuku/commandcast
-	go get github.com/mattn/goreman
+	go install github.com/lunixbochs/vtclean/vtclean@latest
+	#go install github.com/nasuku/commandcast@latest
+	go install github.com/mattn/goreman@latest
+	# like uniq -c but easier to read
+	go install github.com/karrick/histogram@latest
 
 pytools:
 	pip3 install -U pdf.tocgen
