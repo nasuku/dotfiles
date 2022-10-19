@@ -174,13 +174,8 @@ unset load_files
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/terraform terraform
-
-complete -o nospace -C /usr/local/bin/mc mc
 if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
     autoload -Uz compinit
     compinit
 fi
-
-#export PATH="/usr/local/opt/go@1.15/bin:$PATH"

@@ -48,8 +48,6 @@ set wildignore=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jp
 set wildmenu            " enhanced command completion
 set wrap                " need to wrap line to show the whole content"
 set grepprg=rg\ -u\ --vimgrep\ --smart-case
-"set grepprg=ag\ --vimgrep\ --smart-case
-"set grepprg=ag\ -a\ --vimgrep
 set t_ut=               "  Disable Background Color Erase (BCE) so that color schemes
                         " work properly especially background color when
                         " page-up/page-down
@@ -145,6 +143,8 @@ call plug#begin('~/.vim/plugged')
     "Plug 'rking/ag.vim'
     " plugin for editor config
     Plug 'editorconfig/editorconfig-vim'
+    " python developer
+    Plug 'python-mode/python-mode', { 'for': 'python'}
 call plug#end()
 
 function! AirlineInit()
@@ -153,15 +153,36 @@ function! AirlineInit()
 endfunction
 autocmd User AirlineAfterInit call AirlineInit()
 let g:airline_theme='dark'
+"let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline_powerline_fonts = 1
 
-" search case sensitive if there is an uppercase letter
-"let g:ag_prg="ag --vimgrep --smart-case"
-" highlight search term after searching
-"let g:ag_highlight=1
+let g:pymode_options_max_line_length = 135
+let g:pymode_lint_ignore = ["E501"]
+"let g:pymode_rope = 1
+"let g:pymode_rope_prefix = '<C-c>'
 
 "When .vimrc is edited, reload it
 autocmd! bufwritepost vim source ~/.vimrc
-autocmd BufNewFile,BufRead *.py setlocal list
+
+" Setting up indendation
+
+au BufNewFile, BufRead *.py
+    \ setlocal tabstop=4 |
+    \ setlocal softtabstop=4 |
+    \ setlocal shiftwidth=4 |
+    \ setlocal textwidth=79 |
+    \ setlocal expandtab |
+    \ setlocal autoindent |
+    \ setlocal fileformat=unix |
+    \ setlocal list
+
+au BufNewFile, BufRead *.js, *.html, *.css
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2
+
+"autocmd BufNewFile,BufRead *.py setlocal list
 autocmd BufNewFile * set fileformat=unix"
 
 
@@ -218,7 +239,7 @@ autocmd BufReadPost fugitive://* set bufhidden=delete
 " let g:syntastic_ignore_files = [ '.c' ]
 " let g:syntastic_enable_signs=1
 "let s:supported_checkers = ["flake8", "pyflakes", "pylint"]
-let s:supported_checkers = ["flake8"]
+" let s:supported_checkers = ["flake8"]
 "let g:syntastic_python_checker = 'pylint'
 "let g:syntastic_python_python_exec = '//tools/python/bin/python'
 
@@ -369,6 +390,12 @@ endfunction
 command! FZFExecute call FZFExecute()
 command! Fzfc call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --others --modified'}))
 
+" DirDiff
+let g:DirDiffExcludes = "*.class,*.o,*.pyi"
+let g:DirDiffIgnore = "Id:"
+" ignore white space in diff
+let g:DirDiffAddArgs = "-w"
+let g:DirDiffEnableMappings = 0
 
 "==== maps
 nmap <Leader>t <Plug>TaskList
@@ -394,3 +421,7 @@ map ,a :e <c-r>=expand("%:p:r")<cr>
 nnoremap ,e :b#<CR> "  to switch between 2 last buffers
 nmap ,q :bd!<CR>
 nmap ; :BufExplorer<CR>
+
+""""" my attempt for journaling
+:nnoremap <F5> a=== <esc>"=strftime("%c")<CR>p<CR>
+:inoremap <F5> === <C-R>=strftime("%c")<CR><CR>

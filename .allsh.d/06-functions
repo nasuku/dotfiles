@@ -1,11 +1,28 @@
+dev() {
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+    eval "$(jenv init -)"
+    . "$HOME/.cargo/env"
+}
+
+e2date() {
+    local result=$1
+    if [[ $result -gt 10000000000 ]]
+    then
+        gdate -d @${result%???}
+    else
+        gdate -d @${result}
+    fi
+}
+
 # this python script is a poor man's replacement for realpath
 lpwd() {
     rel=$1
     if [ $# -eq 0 ]
     then
-         python -c "import os; print(os.path.realpath('.'))"
+         python3 -c "import os; print(os.path.realpath('.'))"
     else
-         python -c "import os; print(os.path.realpath('$1'))"
+         python3 -c "import os; print(os.path.realpath('$1'))"
     fi
 }
 
@@ -19,7 +36,31 @@ pdfarch() {
     gs -sDEVICE=pdfwrite -dBATCH -dNOPAUSE -dSAFER -sColorConversionStrategy=UseDeviceIndependentColor -dCompatibilityLevel=1.6 -dPrinted=true -dPDFA=2 -sProcessColorModel=DeviceRGB -dPDFACompatibilityPolicy=1 -dDetectDuplicateImages -dFastWebView=true -dSubsetFonts=true -sOutputFile=out-$1 $1
 }
 
-function join_by { local IFS="$1"; shift; echo "$*"; }
+function get_alias() {
+  eval "set -- $(alias -- "$1")"
+  eval 'printf "%s\n" "${'"$#"'#*=}"'
+}
+
+function join_by() { local IFS="$1"; shift; echo "$*"; }
+
+
+# Simple calculator
+function calc() {
+        local result=""
+        result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
+        #                       └─ default (when `--mathlib` is used) is 20
+        #
+        if [[ "$result" == *.* ]]; then
+                # improve the output for decimal numbers
+                printf "$result" |
+                sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
+                    -e 's/^-\./-0./'      `# add "0" for cases like "-.5"`\
+                    -e 's/0*$//;s/\.$//'   # remove trailing zeros
+        else
+                printf "$result"
+        fi
+        printf "\n"
+}
 
 # convert a ps to that it can use the pocketmod folding format
 #pocketmod () {

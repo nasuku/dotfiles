@@ -2,18 +2,18 @@ alias make='nice -n 5 make -j10'
 alias vi=vim
 alias diff='diff -u'
 #case insensitive search using ag
-alias g='rg -i'
+alias g='rg -i.'
 # show only matching files
-alias gl='rg -il'
-#alias g='grep -ir'
+alias gl='rg -il.'
+
 alias k=kubectl
 alias kctx=kubectx
 alias kns=kubens
 alias tf=terraform
 
 #show the file type along with listing
-alias l='ls -F'
-alias ll='ls -alF'
+alias l='ls -Frty'
+alias ll='ls -alFrty'
 # nice directory tree listing showing permissions, user, group and size (human readable)
 alias e="tree -L 1 --dirsfirst -shugp"
 # nice directory tree listing, but just 2 levels
@@ -33,13 +33,10 @@ case `uname` in
 Darwin)
     alias flushdns='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder;say cache flushed'
     ;;
+Linux)
+    alias psl='ps -eLo stat,pid,lwp,user,comm,command'
+    ;;
 esac
-
-function get_alias() {
-  eval "set -- $(alias -- "$1")"
-  eval 'printf "%s\n" "${'"$#"'#*=}"'
-}
-#function join_by { local IFS="$1"; shift; echo "$*"; }
 
 # Tell vim that this is a shell script
 # vi:set ft=sh:
