@@ -145,6 +145,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'editorconfig/editorconfig-vim'
     " python developer
     Plug 'python-mode/python-mode', { 'for': 'python'}
+    "tag bar
+    Plug 'preservim/tagbar'
 call plug#end()
 
 function! AirlineInit()
@@ -291,8 +293,9 @@ endif
 " vim-go
 "
 let g:go_fmt_autosave = 1
-let g:go_fmt_command = "gopls"
-let g:go_gopls_gofumpt = 1
+let g:go_fmt_command = "gofmt"
+"let g:go_fmt_command = "gopls"
+"let g:go_gopls_gofumpt = 1
 let g:go_search_bin_path_first = 1
 let g:go_autodetect_gopath = 1
 let g:go_list_type = "quickfix" " all listing happens with cnext. otherwise some use lnext and some cnext
@@ -329,6 +332,8 @@ augroup go
   autocmd FileType go nmap ,v <Plug>(go-def-vertical)
   " :GoDef but opens in a horizontal split
   autocmd FileType go nmap ,s <Plug>(go-def-split)
+  autocmd FileType go nmap gr :GoReferrers<CR>
+  autocmd FileType go nmap gi :GoImplements<CR>
   " :GoAlternate  commands :A, :AV, :AS and :AT
   autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
   autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')

@@ -12,11 +12,10 @@ all: \
 	tmux \
 	dotfiles \
 	defaults \
-	docker \
-	kube \
 	golang \
 	gotools \
 	pytools \
+	asdf \
 	misc
 
 disabled: \
@@ -68,6 +67,7 @@ brew: /opt/homebrew/bin/brew
 	brew install pipenv
 	brew install pre-commit
 	brew install pstree
+	brew install python-tabulate
 	brew install pv
 	brew install ripgrep
 	brew install rsnapshot
@@ -98,7 +98,9 @@ brew: /opt/homebrew/bin/brew
 	brew install blackhole-2ch
 	brew install crane # container management
 	brew install db-browser-for-sqlite # browse sqlite databases
+	brew install sqlite-utils
 	brew install vegeta
+	brew install pdsh # like commandcast
 
 /opt/homebrew/bin/brew:
 	 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -420,12 +422,14 @@ $(DOTFILES):
 ~/.kube/bash_completion:
 	kubectl completion bash > ~/.kube/bash_completion
 
-docker: /opt/homebrew/bin/brew
-	brew install docker
-	#brew install homebrew/cask/docker
-
-kube: /opt/homebrew/bin/brew
-	brew install kubernetes-cli
+asdf: /opt/homebrew/bin/brew
+	brew install asdf
+	asdf install kubectx latest
+	asdf global kubectx latest
+	asdf install direnv latest
+	asdf global direnv latest
+	#asdf exec direnv hook bash
+	asdf direnv setup --shell zsh
 
 # Here is a comprehensive guide: https://github.com/drduh/macOS-Security-and-Privacy-Guide
 # The following settings implement some basic security measures

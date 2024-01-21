@@ -1,3 +1,5 @@
+#zmodload zsh/zprof
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -9,7 +11,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/suresh/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -81,7 +83,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 #plugins=(git)
 
-plugins=(fzf history taskwarrior gitfast osx common-aliases dirhistory)
+#plugins=(fzf taskwarrior gitfast macos dirhistory)
+plugins=(fzf taskwarrior gitfast)
 source $ZSH/oh-my-zsh.sh
 
 ### Fix slowness of pastes with zsh-syntax-highlighting.zsh
@@ -126,7 +129,7 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 export PATH="$HOME/.bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 #export GOROOT=/usr/local/opt/go/libexec
-export PATH="$GOPATH/bin:$PATH"
+#export PATH="$GOPATH/bin:$PATH"
 export EDITOR="vim"
 export VISUAL="$EDITOR"
 export LC_ALL=en_US.UTF-8
@@ -136,15 +139,15 @@ export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
 export GEM_HOME="$HOME/.gem"
 
 load_files() {
-	declare -a FILES=(
-		/usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-		/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    declare -a FILES=(
+        /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+        /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
         ${HOME}/.zsh.d
         ${HOME}/.allsh.d # both for zsh and bash
         ${HOME}/.allsh.d.local # both for zsh and bash
         ${HOME}/.zsh.d.local
-        ${HOME}/.bash.d.local
-	)
+    )
 
 	for x in "${FILES[@]}"; do
 		[[ -f "$x" ]] && source "$x"
@@ -158,7 +161,7 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 load_files
 
 # Append history as commands are executed
-setopt inc_append_history
+#setopt inc_append_history
 
 # Don't save duplicates
 setopt hist_ignore_all_dups
@@ -175,7 +178,10 @@ unset load_files
 
 autoload -U +X bashcompinit && bashcompinit
 if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH:/opt/homebrew/share/zsh/site-functions
     autoload -Uz compinit
     compinit
 fi
+source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+# (( RANDOM%20 == 0 )) &&  some-inspiring-command || true

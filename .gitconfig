@@ -219,6 +219,10 @@
     insteadOf = https://github.com/
 [pull]
     ff = only
+    rebase = true
+[rebase]
+    autostash = true
+    stat = true
 [init]
     templateDir = /Users/suresh/.git-template
 [interactive]

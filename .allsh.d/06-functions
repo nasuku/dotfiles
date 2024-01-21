@@ -43,6 +43,17 @@ function get_alias() {
 
 function join_by() { local IFS="$1"; shift; echo "$*"; }
 
+:<<'COMMENT'
+# get paranthesised group value matching regex
+❯ echo 'p asq2bsas' | regex 'a(s.*)(a.)'
+asq2bsas
+❯ echo 'p asq2bsas' | regex 'a(s.*)(a.)' 1
+sq2bs
+❯ echo 'p asq2bsas' | regex 'a(s.*)(a.)' 2
+as
+COMMENT
+function regex { gawk 'match($0,/'$1'/, ary) {print ary['${2:-'0'}']}'; }
+
 
 # Simple calculator
 function calc() {
