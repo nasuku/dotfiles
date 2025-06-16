@@ -4,11 +4,9 @@ DOTFILES := $(addprefix ~/, $(filter-out $(EXCLUDED_DOTFILES), $(wildcard .*)))
 # everything, geared towards to be run for setup and maintenance
 all: \
 	zsh \
-	taps \
 	brew \
 	casks \
 	fonts \
-	vim \
 	tmux \
 	dotfiles \
 	defaults \
@@ -19,6 +17,7 @@ all: \
 	misc
 
 disabled: \
+	vim \
 	harder
 
 misc:
@@ -89,7 +88,7 @@ brew: /opt/homebrew/bin/brew
 	brew install watch
 	brew install weaveworks/tap/eksctl
 	brew install wget
-	brew install youtube-dl
+	brew install yt-dlp
 	brew install zbar # for zbarimg tool to decode barcodes from img files
 	brew install zsh-autosuggestions
 	brew install zsh-completions
@@ -134,45 +133,47 @@ casks: /opt/homebrew/bin/brew
 	brew install alfred
 	brew install appcleaner
 	brew install atext
-	brew install coconutbattery
-	brew install devdocs
+	# brew install coconutbattery
+	# brew install devdocs
 	brew install docker
-	brew install dropbox
+	# brew install dropbox
 	brew install firefox
-	brew install flux
+	# brew install flux
 	brew install flycut
-	brew install goland
+	# brew install goland
 	brew install graphiql
 	brew install hammerspoon
 	brew install iterm2
 	brew install keepassxc
-	brew install notion
+	# brew install notion
 	brew install nvalt
-	brew install octave-app
+	# brew install octave
 	brew install macfuse
 	brew install postman
 	brew install pycharm-ce
 	brew install skim
-	brew install slack
-	brew install slate
+	# brew install slack
+	# brew install slate
 	brew install spotify
 	brew install vlc
-	brew install vnc-viewer
+	# brew install vnc-viewer
 	brew install whatsapp
 	brew install vagrant
-	brew install utm
+	# brew install utm
+	brew install virtualbox
 
 fonts: /opt/homebrew/bin/brew
 	# tap homebrew-fonts to install freely available fonts
 	brew tap homebrew/cask-fonts
-	brew install font-anonymice-nerd-font
-	brew install font-anonymous-pro
-	brew install font-meslo-lg-nerd-font
-	brew install colindean/fonts-nonfree/font-microsoft-office
-	brew install font-sauce-code-pro-nerd-font
-	brew install font-source-code-pro
-	brew install font-victor-mono
-	brew install font-victor-mono-nerd-font
+	# brew install font-anonymice-nerd-font
+	# brew install font-anonymous-pro
+	# brew install font-meslo-lg-nerd-font
+	# brew install colindean/fonts-nonfree/font-microsoft-office
+	# brew install font-sauce-code-pro-nerd-font
+	# brew install font-source-code-pro
+	# brew install font-victor-mono
+	# brew install font-victor-mono-nerd-font
+	brew install font-iosevka-nerd-font
 
 bash: /opt/homebrew/bin/brew
 	# newer version of bash
@@ -184,7 +185,8 @@ bash: /opt/homebrew/bin/brew
 
 zsh: /opt/homebrew/bin/brew
 	@# install oh-my-zsh
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+	# sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 	brew install zsh-completions
 	brew install zsh-syntax-highlighting
 	brew install zsh-autosuggestions

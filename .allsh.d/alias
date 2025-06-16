@@ -1,5 +1,6 @@
 alias make='nice -n 5 make -j10'
 alias vi=nvim
+alias vim=nvim
 alias diff='diff -u'
 #case insensitive search using rg
 alias g='rg -i.'
