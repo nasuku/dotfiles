@@ -182,6 +182,6 @@ if type brew &>/dev/null; then
     autoload -Uz compinit
     compinit
 fi
-source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+eval "$(mise activate zsh)"
 # (( RANDOM%20 == 0 )) &&  some-inspiring-command || true

@@ -1,7 +1,17 @@
 Host *
-   ServerAliveInterval 200
-   ServerAliveCountMax 2
-   TCPKeepAlive no
-   UseKeychain yes
-   AddKeysToAgent yes
-   IdentityFile ~/.ssh/id_rsa
+    IdentityFile ~/.ssh/id_rsa
+    TCPKeepAlive=yes
+    ServerAliveInterval=15
+    ServerAliveCountMax=6
+    Compression=yes
+    ControlMaster auto
+    ControlPath /tmp/%r@%h:%p
+    #ControlPath /tmp/%C
+    #ControlPersist yes
+    ControlPersist 2m
+    IgnoreUnknown UseKeyChain
+    UseKeychain yes
+    AddKeysToAgent yes
+    HashKnownHosts yes
+    HostkeyAlgorithms +ssh-rsa
+    PubkeyAcceptedAlgorithms +ssh-rsa
