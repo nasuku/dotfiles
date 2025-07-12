@@ -82,8 +82,10 @@ brew: /opt/homebrew/bin/brew
 	brew install goreman
 	brew install jq
 	brew install k9s
+	brew install k3d
 	brew install moreutils # vidir etc
 	brew install n
+	brew install ollama
 	brew install ripgrep
 	brew install rsnapshot
 	brew install watch
@@ -95,6 +97,9 @@ brew: /opt/homebrew/bin/brew
 	brew install zstd
 	brew install crane # container management
 	brew install db-browser-for-sqlite # browse sqlite databases
+	brew install neovim
+	brew install podman # extra docker
+	brew install kind # extra k3d
 
 /opt/homebrew/bin/brew:
 	 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -151,7 +156,7 @@ casks: /opt/homebrew/bin/brew
 	brew install skim
 	brew install spotify
 	brew install vagrant
-	brew install neovim
+	brew install homebrew/cask/docker
 
 fonts: /opt/homebrew/bin/brew
 	# brew install font-anonymice-nerd-font
