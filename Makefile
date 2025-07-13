@@ -9,10 +9,10 @@ all: \
 	fonts \
 	dotfiles \
 	mise-packages  \
-	powerlevel10k \
 	defaults-iterm
 
 disabled: \
+	powerlevel10k \
 	pytools \
 	gotools \
 	tmux \
