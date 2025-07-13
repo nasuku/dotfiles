@@ -1,4 +1,9 @@
-#zmodload zsh/zprof
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+export HOMEBREW_CASK_OPTS=--require-sha
+
+export PATH=/opt/homebrew/bin:$PATH
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -7,85 +12,24 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+fpath=(/usr/local/share/zsh-completions $fpath)
+# Append history as commands are executed
+#setopt inc_append_history
+# Don't save duplicates
+setopt hist_ignore_all_dups
+setopt histreduceblanks
+setopt histsavenodups
+# Treat #, ~, and ^ as part of patterns for filename generation
+setopt extended_glob
 
-# Path to your oh-my-zsh installation.
-export ZSH="${HOME}/.oh-my-zsh"
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
-#ZSH_THEME="agnoster"
+source /opt/homebrew/opt/zinit/zinit.zsh
+zinit light romkatv/powerlevel10k
+zinit light zsh-users/zsh-completions
+zinit snippet OMZP::aws
 
-ZSH_THEME="powerlevel10k/powerlevel10k"
-#ZSH_THEME="random"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS=true
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-#plugins=(git)
-
-#plugins=(fzf taskwarrior gitfast macos dirhistory)
-plugins=(fzf taskwarrior gitfast)
-source $ZSH/oh-my-zsh.sh
 
 ### Fix slowness of pastes with zsh-syntax-highlighting.zsh
 pasteinit() {
@@ -98,83 +42,40 @@ pastefinish() {
 }
 zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
-### Fix slowness of pastes
+
 # User configuration
+export HISTIGNORE="&:ls:exit"
 
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-export PATH="$HOME/.bin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
-#export GOROOT=/usr/local/opt/go/libexec
-#export PATH="$GOPATH/bin:$PATH"
+export PATH="$HOME/.bin:$HOME/go/bin:$PATH"
 export EDITOR="vim"
 export VISUAL="$EDITOR"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_COLLATE=C
-export MANPATH=/usr/local/opt/coreutils/libexec/gnuman:$MANPATH
-export GEM_HOME="$HOME/.gem"
+export MANPATH=/opt/homebrew/share/man:$MANPATH
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export RIPGREP_CONFIG_PATH=~/.ripgreprc
+
+export LSCOLORS=GxFxCxDxCxegedabagaced
 
 load_files() {
     declare -a FILES=(
         /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
         /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-        ${HOME}/.zsh.d
-        ${HOME}/.allsh.d # both for zsh and bash
-        ${HOME}/.allsh.d.local # both for zsh and bash
-        ${HOME}/.zsh.d.local
+        #${HOME}/.zsh.d
+        #${HOME}/.allsh.d # both for zsh and bash
+        #${HOME}/.allsh.d.local # both for zsh and bash
+        #${HOME}/.zsh.d.local
     )
 
-	for x in "${FILES[@]}"; do
-		[[ -f "$x" ]] && source "$x"
-		[[ -d "$x" ]] && { for i in "${x}"/*; do source $i; done }
-	done
+    for x in "${FILES[@]}"; do
+        [[ -f "$x" ]] && source "$x"
+        [[ -d "$x" ]] && { for i in "${x}"/*; do source $i; done }
+    done
 }
-
-fpath=(/usr/local/share/zsh-completions $fpath)
-
-# Source other files
 load_files
-
-# Append history as commands are executed
-#setopt inc_append_history
-
-# Don't save duplicates
-setopt hist_ignore_all_dups
-setopt histreduceblanks
-setopt histsavenodups
-
-# Treat #, ~, and ^ as part of patterns for filename generation
-setopt extended_glob
-
 unset load_files
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 autoload -U +X bashcompinit && bashcompinit
 if type brew &>/dev/null; then
@@ -183,5 +84,156 @@ if type brew &>/dev/null; then
     compinit
 fi
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+bindkey "^[[A" up-line-or-search
+bindkey "^[[B" down-line-or-search
+
+#WORDCHARS remove / so that navigation stops at /
+WORDCHARS="${WORDCHARS/\//}"
+
+:<<COMMENT
+❯ dy help
+"get time for a city" "dig mumbai.time @dns.toys"
+"convert currency rates" "dig 99USD-INR.fx @dns.toys"
+"get your host's requesting IP." "dig ip @dns.toys"
+"get weather forecast for a city." "dig berlin.weather @dns.toys"
+"convert between units." "dig 42km-cm.unit @dns.toys"
+"convert numbers to words." "dig 123456.words @dns.toys"
+"convert cidr to ip range." "dig 10.100.0.0/24.cidr @dns.toys"
+"return digits of Pi as TXT or A or AAAA record." "dig pi @dns.toys"
+"convert numbers from one base to another" "dig 100dec-hex.base @dns.toys"
+"get the definition of an English word, powered by WordNet(R)." "dig fun.dict @dns.toys"
+"roll dice" "dig 1d6.dice @dns.toys"
+"generate random numbers" "dig 3d20+3.dice @dns.toys"
+"toss coin" "dig 2.coin @dns.toys"
+"convert epoch / UNIX time to human readable time." "dig 784783800.epoch @dns.toys"
+"get aerial distance between lat lng pair" "dig A12.9352,77.6245/12.9698,77.7500.aerial @dns.toys"
+COMMENT
+alias dy='dig +short @dns.toys'
+
+alias ssh='ssh -oUserKnownHostsFile=/dev/null -o StrictHostKeyChecking=false'
+alias scp='scp -oUserKnownHostsFile=/dev/null -o StrictHostKeyChecking=false'
+alias ta='tmux -q has-session -t suresh > /dev/null 2>&1 && tmux attach-session -d -t suresh || tmux new-session -s suresh'
+case `uname` in
+Darwin)
+    alias flushdns='sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder;say cache flushed'
+    ;;
+Linux)
+    alias psl='ps -eLo stat,pid,lwp,user,comm,command'
+    ;;
+esac
+
+alias cat=bat
+alias d=docker
+alias g='rg -i.'
+alias gitroot='cd $(git rev-parse --show-toplevel)'
+alias hd='hexdump -C'
+alias k=kubectl
+alias kctx=kubectx
+alias kns=kubens
+alias ls='ls --color=auto'
+alias l='ls -Frty'
+alias ll='ls -alFrty'
+alias t=task
+alias v=nvim
+alias vi=nvim
+alias make='nice -n 5 make -j10'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+# little rare stuff...
+#
+e2date() {
+    local result=$1
+    if [[ $result -gt 10000000000 ]]
+    then
+        gdate -d @${result%???}
+    else
+        gdate -d @${result}
+    fi
+}
+
+# this python script is a poor man's replacement for realpath
+lpwd() {
+    rel=$1
+    if [ $# -eq 0 ]
+    then
+         python3 -c "import os; print(os.path.realpath('.'))"
+    else
+         python3 -c "import os; print(os.path.realpath('$1'))"
+    fi
+}
+
+# convert pdf to small and archive standard
+pdfsma() {
+    gs -dCompatibilityLevel=1.6 -dPDFA=2 -dPDFACompatibilityPolicy=1 -sColorConversionStrategy=RGB -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=out-$1 $1
+}
+
+# archival standard for pdf with all fonts embedded and better color quality but larger file size
+pdfarch() {
+    gs -sDEVICE=pdfwrite -dBATCH -dNOPAUSE -dSAFER -sColorConversionStrategy=UseDeviceIndependentColor -dCompatibilityLevel=1.6 -dPrinted=true -dPDFA=2 -sProcessColorModel=DeviceRGB -dPDFACompatibilityPolicy=1 -dDetectDuplicateImages -dFastWebView=true -dSubsetFonts=true -sOutputFile=out-$1 $1
+}
+
+function get_alias() {
+  eval "set -- $(alias -- "$1")"
+  eval 'printf "%s\n" "${'"$#"'#*=}"'
+}
+
+function join_by() { local IFS="$1"; shift; echo "$*"; }
+
+:<<'COMMENT'
+# get paranthesised group value matching regex
+❯ echo 'p asq2bsas' | regex 'a(s.*)(a.)'
+asq2bsas
+❯ echo 'p asq2bsas' | regex 'a(s.*)(a.)' 1
+sq2bs
+❯ echo 'p asq2bsas' | regex 'a(s.*)(a.)' 2
+as
+COMMENT
+function regex { gawk 'match($0,/'$1'/, ary) {print ary['${2:-'0'}']}'; }
+
+
+# Simple calculator
+function calc() {
+        local result=""
+        result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
+        #                       └─ default (when `--mathlib` is used) is 20
+        #
+        if [[ "$result" == *.* ]]; then
+                # improve the output for decimal numbers
+                printf "$result" |
+                sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
+                    -e 's/^-\./-0./'      `# add "0" for cases like "-.5"`\
+                    -e 's/0*$//;s/\.$//'   # remove trailing zeros
+        else
+                printf "$result"
+        fi
+        printf "\n"
+}
+
+# convert a ps to that it can use the pocketmod folding format
+pocketmod () {
+    pstops '8:7,0,1,2,5,6,3,4' $1 | psnup -2 |pstops '2:0,1U(1w,1h)'| psnup -2 | psnup -2 > /tmp/1.ps
+}
+
+#print a pdf like a book
+pdfbookprint () {
+    pdftops $1 - | psbook |psnup -2 -pletter |pstops '2:0,1U@1(21.6cm,28cm)' |lpr ;
+}
+
+# create animated gif to cut-n-paste to github easily
+# try calling like: agif in.mov out.gif
+# https://gist.github.com/joyrexus/7042973
+agif() {
+    ffmpeg -i $1  -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > $2.gif
+}
+
+
+
+source <(fzf --zsh)
 eval "$(mise activate zsh)"
 # (( RANDOM%20 == 0 )) &&  some-inspiring-command || true
+
+# Tell vim that this is a shell script
+# vi:set ft=sh:

@@ -165,9 +165,10 @@ fonts: /opt/homebrew/bin/brew
 	brew install font-hack-nerd-font
 
 zsh: /opt/homebrew/bin/brew
-	@# install oh-my-zsh
+	# install oh-my-zsh
 	# sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+	# sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+	brew install zinit
 	brew install zsh-completions
 	brew install zsh-syntax-highlighting
 	brew install zsh-autosuggestions

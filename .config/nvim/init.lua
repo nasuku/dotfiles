@@ -30,16 +30,16 @@ require("lazy").setup({
   { 
     'chrisbra/unicode.vim'
   },
-  { 
-    'stevedylandev/flexoki-nvim', name = 'flexoki'
+  -- { 
+  --   'stevedylandev/flexoki-nvim', name = 'flexoki'
+  -- },
+  {
+   "NLKNguyen/papercolor-theme",
+   priority = 1000,
+   config = function()
+     vim.cmd([[colorscheme PaperColor]])
+   end,
   },
-  --{
-  --  "NLKNguyen/papercolor-theme",
-  --  priority = 1000,
-  --  config = function()
-  --    vim.cmd([[colorscheme PaperColor]])
-  --  end,
-  --},
   -- statusline
   { 
     "nvim-lualine/lualine.nvim",
@@ -737,8 +737,8 @@ hi DiagnosticFloatingError guibg=#ffd787
 hi DiagnosticFloatingWarn guibg=#ffd787
 hi DiagnosticFloatingHint guibg=#ffd787
 hi DiagnosticFloatingInfo guibg=#ffd787
-colorscheme flexoki
 ]]
+-- colorscheme flexoki
 
 vim.keymap.set('n', ';', ':Telescope buffers<CR>')
 -- vim.keymap.set('n', ';', ':BufExplorer<CR>')

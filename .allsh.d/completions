@@ -1,2 +1,0 @@
-complete -o nospace -C /usr/local/bin/terraform terraform
-complete -o nospace -C /usr/local/bin/mc mc
