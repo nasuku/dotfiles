@@ -154,7 +154,7 @@ casks: /opt/homebrew/bin/brew
 	brew install iterm2
 	brew install keepassxc
 	brew install skim
-	brew install spotify
+	#brew install spotify  # failing because of non-present SHA
 	brew install vagrant
 	brew install homebrew/cask/docker
 
