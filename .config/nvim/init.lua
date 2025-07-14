@@ -12,25 +12,58 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- ChangeBackground changes the background mode based on macOS's `Appearance
--- setting. 
+-- setting.
 local function change_background()
   local m = vim.fn.system("defaults read -g AppleInterfaceStyle")
   m = m:gsub("%s+", "") -- trim whitespace
   if m == "Dark" then
-    vim.o.background = "dark" 
+    vim.o.background = "dark"
   else
-    vim.o.background = "light" 
+    vim.o.background = "light"
   end
 end
 
+-- mixed indent
+function MIstatus()
+  local space_pat = [[\v^ +]]
+  local tab_pat = [[\v^\t+]]
+  local space_indent = vim.fn.search(space_pat, 'nwc')
+  local tab_indent = vim.fn.search(tab_pat, 'nwc')
+  local mixed = (space_indent > 0 and tab_indent > 0)
+  local mixed_same_line
+  if not mixed then
+    mixed_same_line = vim.fn.search([[\v^(\t+ | +\t)]], 'nwc')
+    mixed = mixed_same_line > 0
+  end
+  if not mixed then return '' end
+  if mixed_same_line ~= nil and mixed_same_line > 0 then
+     return 'MI:'..mixed_same_line
+  end
+  local space_indent_cnt = vim.fn.searchcount({pattern=space_pat, max_count=1e3}).total
+  local tab_indent_cnt =  vim.fn.searchcount({pattern=tab_pat, max_count=1e3}).total
+  if space_indent_cnt > tab_indent_cnt then
+    return 'MI:'..tab_indent
+  else
+    return 'MI:'..space_indent
+  end
+end
+
+-- trailing whitespace to be shown in lualine
+function TWline()
+  local space = vim.fn.search([[\s\+$]], 'nwc')
+  return space ~= 0 and "TW:"..space or ""
+end
 ----------------
 --- plugins ---
 ----------------
 require("lazy").setup({
-  { 
+  {
+    'ntpeters/vim-better-whitespace'
+  },
+  {
     'chrisbra/unicode.vim'
   },
-  -- { 
+  -- {
   --   'stevedylandev/flexoki-nvim', name = 'flexoki'
   -- },
   {
@@ -41,7 +74,7 @@ require("lazy").setup({
    end,
   },
   -- statusline
-  { 
+  {
     "nvim-lualine/lualine.nvim",
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function ()
@@ -67,14 +100,14 @@ require("lazy").setup({
         cyan         = '#00DFFF',
       }
       custom_theme.inactive = {
-	      a = { bg = colors.gray, fg = colors.white, gui = 'bold' },
-	      b = { bg = colors.gray, fg = colors.white },
-	      c = { bg = colors.gray, fg = colors.white },
+        a = { bg = colors.gray, fg = colors.white, gui = 'bold' },
+        b = { bg = colors.gray, fg = colors.white },
+        c = { bg = colors.gray, fg = colors.white },
       }
       require("lualine").setup({
         options = { theme = custom_theme },
         sections = {
-          lualine_x = {"vim.fn.getcwd()"},
+          lualine_x = {'vim.fn.getcwd()', 'TWline()', 'MIstatus()'},
           lualine_c = { { 'filename', path =1 } }
         }
       })
@@ -82,7 +115,7 @@ require("lazy").setup({
   },
 
   -- testing framework
-  { 
+  {
     "vim-test/vim-test",
     config = function ()
       vim.g['test#strategy'] = 'neovim'
@@ -139,16 +172,16 @@ require("lazy").setup({
 
   -- fzf extension for telescope with better speed
   {
-    "nvim-telescope/telescope-fzf-native.nvim", run = 'make' 
+    "nvim-telescope/telescope-fzf-native.nvim", run = 'make'
   },
 
   {'nvim-telescope/telescope-ui-select.nvim' },
 
   -- fuzzy finder framework
   {
-    "nvim-telescope/telescope.nvim", 
+    "nvim-telescope/telescope.nvim",
     tag = '0.1.4',
-    dependencies = { 
+    dependencies = {
       "nvim-lua/plenary.nvim" ,
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
@@ -186,7 +219,7 @@ require("lazy").setup({
 
   -- lsp-config
   {
-    "neovim/nvim-lspconfig", 
+    "neovim/nvim-lspconfig",
     priority = 905,
     config = function ()
       util = require "lspconfig/util"
@@ -249,23 +282,23 @@ require("lazy").setup({
       require("other-nvim").setup({
         mappings = {
           "rails", --builtin mapping
-	        {
-	        	pattern = "(.*).go$",
-	        	target = "%1_test.go",
+          {
+            pattern = "(.*).go$",
+            target = "%1_test.go",
             context = "test",
-	        },
-	        {
-	        	pattern = "(.*)_test.go$",
-	        	target = "%1.go",
+          },
+          {
+            pattern = "(.*)_test.go$",
+            target = "%1.go",
             context = "file",
-	        },
-	      },
+          },
+        },
       })
     end,
   },
 
   -- Highlight, edit, and navigate code
-  { 
+  {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
@@ -335,7 +368,7 @@ require("lazy").setup({
 
   {
     "windwp/nvim-autopairs",
-    config = function() 
+    config = function()
       require("nvim-autopairs").setup {
         check_ts = true,
       }
@@ -412,24 +445,24 @@ require("lazy").setup({
       })
 
       -- require('cmp').setup.cmdline("/", {
-	     --  sources = cmp.config.sources({
-	     --  	{ name = "nvim_lsp_document_symbol" },
-	     --  }, {
-	     --  	{ name = "buffer" },
-	     --  }),
+       --  sources = cmp.config.sources({
+       --   { name = "nvim_lsp_document_symbol" },
+       --  }, {
+       --   { name = "buffer" },
+       --  }),
       -- })
 
       require('cmp').setup.cmdline(":", {
-	      sources = cmp.config.sources({
-	      	{ name = "path" },
-	      }, {
-	      	{ name = "cmdline" },
-	      }),
+        sources = cmp.config.sources({
+          { name = "path" },
+        }, {
+          { name = "cmdline" },
+        }),
       })
     end,
   },
 
-  
+
   -- helper to install various language plugins
   {
     "williamboman/mason.nvim",
@@ -534,7 +567,7 @@ vim.opt.mouse = 'a'                -- Enable mouse support
 vim.opt.clipboard = 'unnamedplus'  -- Copy/paste to system clipboard
 vim.opt.swapfile = false           -- Don't use swapfile
 vim.opt.ignorecase = true          -- Search case insensitive...
-vim.opt.smartcase = true           -- ... but not it begins with upper case 
+vim.opt.smartcase = true           -- ... but not it begins with upper case
 vim.opt.completeopt = 'menuone,noinsert,noselect'  -- Autocomplete options
 
 vim.opt.undofile = true
@@ -542,7 +575,7 @@ vim.opt.undodir = vim.fn.stdpath("data") .. "undo"
 
 -- Indent Settings
 -- I'm in the Spaces camp (sorry Tabs folks), so I'm using a combination of
--- settings to insert spaces all the time. 
+-- settings to insert spaces all the time.
 vim.opt.expandtab = true  -- expand tabs into spaces
 vim.opt.shiftwidth = 2    -- number of spaces to use for each step of indent.
 vim.opt.tabstop = 2       -- number of spaces a TAB counts for
@@ -657,7 +690,12 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 
 -- telescope
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<C-p>', builtin.git_files, {})
+
+-- only modified files in git repo.
+vim.keymap.set('n', '<C-p>', function() builtin.git_files({git_command={"git","ls-files", "--exclude-standard", "--others", "--modified"} }) end)
+-- files in git repo.
+-- vim.keymap.set('n', '<C-p>', builtin.git_files, {})
+
 vim.keymap.set('n', '<C-b>', builtin.find_files, {})
 vim.keymap.set('n', '<C-g>', builtin.lsp_document_symbols, {})
 vim.keymap.set('n', '<leader>td', builtin.diagnostics, {})
@@ -779,8 +817,8 @@ vim.keymap.set('','f',':HopChar2<cr>',{remap=true})
 --       dscr = "Yaml metadata format for markdown"
 --     }, {
 --         text({"---",
---           "title: "}), insert(1, "note_title"), text({"", 
---           "author: "}), insert(2, "author"), text({"", 
+--           "title: "}), insert(1, "note_title"), text({"",
+--           "author: "}), insert(2, "author"), text({"",
 --           "date: "}), func(date, {}), text({"",
 --           "categories: ["}), insert(3, ""), text({"]",
 --           "lastmod: "}), func(date, {}), text({"",
