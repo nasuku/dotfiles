@@ -74,7 +74,8 @@ require("lazy").setup({
       require("lualine").setup({
         options = { theme = custom_theme },
         sections = {
-          lualine_x = {}
+          lualine_x = {"vim.fn.getcwd()"},
+          lualine_c = { { 'filename', path =1 } }
         }
       })
     end,
