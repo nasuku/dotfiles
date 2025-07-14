@@ -3,7 +3,6 @@ export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
 
-export PATH=/opt/homebrew/bin:$PATH
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -25,7 +24,7 @@ setopt extended_glob
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-source /opt/homebrew/opt/zinit/zinit.zsh
+source ${HOMEBREW_PREFIX}/opt/zinit/zinit.zsh
 zinit light romkatv/powerlevel10k
 zinit light zsh-users/zsh-completions
 zinit snippet OMZP::aws
@@ -52,7 +51,7 @@ export VISUAL="$EDITOR"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_COLLATE=C
-export MANPATH=/opt/homebrew/share/man:$MANPATH
+export MANPATH=$HOMEBREW_PREFIX/share/man:$MANPATH
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
 
@@ -79,7 +78,7 @@ unset load_files
 
 autoload -U +X bashcompinit && bashcompinit
 if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH:/opt/homebrew/share/zsh/site-functions
+    FPATH=${HOMEBREW_PREFIX}/share/zsh-completions:$FPATH:${HOMEBREW_PREFIX}/share/zsh/site-functions
     autoload -Uz compinit
     compinit
 fi
