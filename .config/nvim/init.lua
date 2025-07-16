@@ -11,18 +11,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- ChangeBackground changes the background mode based on macOS's `Appearance
--- setting.
-local function change_background()
-  local m = vim.fn.system("defaults read -g AppleInterfaceStyle")
-  m = m:gsub("%s+", "") -- trim whitespace
-  if m == "Dark" then
-    vim.o.background = "dark"
-  else
-    vim.o.background = "light"
-  end
-end
-
 -- mixed indent
 function MIstatus()
   local space_pat = [[\v^ +]]
@@ -63,9 +51,7 @@ require("lazy").setup({
   {
     'chrisbra/unicode.vim'
   },
-  -- {
-  --   'stevedylandev/flexoki-nvim', name = 'flexoki'
-  -- },
+  -- { 'stevedylandev/flexoki-nvim', name = 'flexoki' },
   {
    "NLKNguyen/papercolor-theme",
    priority = 1000,
@@ -352,15 +338,9 @@ require("lazy").setup({
               ['[]'] = '@function.outer',
             },
           },
-          -- swap = {
-          --   enable = true,
-          --   swap_next = {
-          --     ['<leader>a'] = '@parameter.inner',
-          --   },
-          --   swap_previous = {
-          --     ['<leader>A'] = '@parameter.inner',
-          --   },
-          -- },
+          swap = {
+             enable = false,
+          },
         },
       })
     end,
@@ -472,28 +452,6 @@ require("lazy").setup({
     end
   },
 
-  -- helper to easily pick and configure the language plugins
-   {
-    "williamboman/mason-lspconfig.nvim",
-    priority = 895,
-    config = function()
-      local lsp_servers = {
-        pyright = {},
-        -- tsserver = {},
-        bashls = {},
-        rust_analyzer = {},
-        gopls = {},
-      }
-      require("mason-lspconfig").setup({
-        ensure_installed = lsp_servers,
-        automatic_installation = true,
-      })
-      require("lspconfig").bashls.setup {}
-      require("lspconfig").pylsp.setup {}
-      require("lspconfig").rust_analyzer.setup {}
-    end
-  },
-
   -- create sessions
   {
     "olimorris/persisted.nvim",
@@ -529,21 +487,6 @@ require("lazy").setup({
   end,
   opts = { }
   },
-  -- {
-  --   "folke/flash.nvim",
-  --   event = "VeryLazy",
-  --   vscode = true,
-  --   ---@type Flash.Config
-  --   opts = {},
-  --   -- stylua: ignore
-  --   keys = {
-  --     -- { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-  --     { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-  --     { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-  --     { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-  --     { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-  --   },
-  -- }
 })
 
 ----------------
@@ -555,32 +498,31 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 vim.opt.termguicolors = true -- Enable 24-bit RGB colors
-
 vim.opt.number = true        -- Show line numbers
 vim.opt.showmatch = true     -- Highlight matching parenthesis
 vim.opt.splitright = true    -- Split windows right to the current windows
 vim.opt.splitbelow = true    -- Split windows below to the current windows
 vim.opt.autowrite = true     -- Automatically save before :next, :make etc.
 vim.opt.autochdir = false     -- Change CWD when I open a file
-
 vim.opt.mouse = 'a'                -- Enable mouse support
 vim.opt.clipboard = 'unnamedplus'  -- Copy/paste to system clipboard
 vim.opt.swapfile = false           -- Don't use swapfile
 vim.opt.ignorecase = true          -- Search case insensitive...
 vim.opt.smartcase = true           -- ... but not it begins with upper case
 vim.opt.completeopt = 'menuone,noinsert,noselect'  -- Autocomplete options
-
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.stdpath("data") .. "undo"
-
--- Indent Settings
--- I'm in the Spaces camp (sorry Tabs folks), so I'm using a combination of
--- settings to insert spaces all the time.
 vim.opt.expandtab = true  -- expand tabs into spaces
 vim.opt.shiftwidth = 2    -- number of spaces to use for each step of indent.
 vim.opt.tabstop = 2       -- number of spaces a TAB counts for
 vim.opt.autoindent = true -- copy indent from current line when starting a new line
 vim.opt.wrap = true
+vim.opt.grepprg='rg --vimgrep'
+vim.opt.background = 'light'
+vim.opt.listchars='tab:→ ,trail:▸,extends:>,nbsp:_'
+vim.opt.guicursor='a:blinkon0'
+vim.opt.sessionoptions = "buffers,curdir,folds,globals,tabpages,winpos,winsize"
+
 
 -- This comes first, because we have mappings that depend on leader
 -- With a map leader it's possible to do extra key combinations
@@ -591,20 +533,8 @@ vim.g.mapleader = ','
 vim.keymap.set('n', '<Leader>w', ':write!<CR>')
 vim.keymap.set('n', '<Leader>q', ':bd!<CR>', { silent = true })
 
--- Some useful quickfix shortcuts for quickfix
--- vim.keymap.set('', ']q', ':cn<CR>')
--- vim.keymap.set('', '[q', ':cp<CR>')
--- vim.keymap.set('n', '<Leader>a', ':cclose<CR>')
-
--- Exit on jj and jk
--- vim.keymap.set('i', 'jj', '<ESC>')
--- vim.keymap.set('i', 'jk', '<ESC>')
-
 -- Remove search highlight
 vim.keymap.set('n', '<Leader><space>', ':nohlsearch<CR>')
-
--- Center the screen
--- vim.keymap.set('n', '<CR>', 'zz')
 
 -- Search mappings: These will make it so that going to the next one in a
 -- search will center on the line it's found in.
@@ -613,9 +543,6 @@ vim.keymap.set('n', 'N', 'Nzzzv')
 
 -- Don't jump forward if I higlight and search for a word
 vim.keymap.set('n', '*', '*N')
-
--- Source the current Vim file
-vim.keymap.set('n', '<Leader>pr', ':luafile %<CR>', {desc='Source current lua file'})
 
 -- Better split switching
 vim.keymap.set('', '<C-j>', '<C-W>j')
@@ -670,7 +597,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
 
 -- File-tree mappings
 vim.keymap.set('n', '<leader>n', ':NvimTreeToggle<CR>', { noremap = true })
--- vim.keymap.set('n', '<leader>f', ':NvimTreeFindFileToggle!<CR>', { noremap = true })
 
 -- Test
 --
@@ -729,9 +655,6 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   group = vim.api.nvim_create_augroup('setGoFormatting', { clear = true }),
   pattern = '*.go',
   callback = function()
-    -- vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true, async = false })
-    -- vim.lsp.buf.format({ async = false })
-
     vim.lsp.buf.format()
     vim.lsp.buf.code_action { context = { only = { 'source.organizeImports' } }, apply = true }
     vim.lsp.buf.code_action { context = { only = { 'source.fixAll' } }, apply = true }
@@ -762,14 +685,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-
--- Suresh
---
-vim.o.background = 'light'
-vim.o.listchars='tab:→ ,trail:▸,extends:>,nbsp:_'
-vim.o.guicursor='a:blinkon0'
-vim.o.sessionoptions = "buffers,curdir,folds,globals,tabpages,winpos,winsize"
-
 -- didnt like default bg color of highlight float
 vim.cmd[[
 hi DiagnosticFloatingError guibg=#ffd787
@@ -777,56 +692,15 @@ hi DiagnosticFloatingWarn guibg=#ffd787
 hi DiagnosticFloatingHint guibg=#ffd787
 hi DiagnosticFloatingInfo guibg=#ffd787
 ]]
--- colorscheme flexoki
 
 vim.keymap.set('n', ';', ':Telescope buffers<CR>')
--- vim.keymap.set('n', ';', ':BufExplorer<CR>')
 vim.keymap.set('n', ',a', ':e <c-r>=expand("%:p:r")<cr>')
 vim.keymap.set('n', ',e', ':b#<cr>')
 vim.keymap.set('',',cd', ':cd %:p:h<cr>')
-
 vim.keymap.set("", "[q", ':cprevious<cr>')
 vim.keymap.set("", "]q", ':cnext<cr>')
-vim.opt.grepprg='rg --vimgrep'
-
 vim.keymap.set('','f',':HopChar2<cr>',{remap=true})
 
--- some shorthands...
--- local ls = require("luasnip")
--- local snip = ls.snippet
--- local node = ls.snippet_node
--- local text = ls.text_node
--- local insert = ls.insert_node
--- local func = ls.function_node
--- local choice = ls.choice_node
--- local dynamicn = ls.dynamic_node
---
--- local date = function() return {os.date('%Y-%m-%d')} end
--- ls.add_snippets(nil, {
---   all = {
---     snip({
---       trig = "ddate",
---       namr = "Date",
---       dscr = "Date in the form of YYYY-MM-DD",
---     }, {
---         func(date, {}),
---       }),
---     snip({
---       trig = "meta",
---       namr = "Metadata",
---       dscr = "Yaml metadata format for markdown"
---     }, {
---         text({"---",
---           "title: "}), insert(1, "note_title"), text({"",
---           "author: "}), insert(2, "author"), text({"",
---           "date: "}), func(date, {}), text({"",
---           "categories: ["}), insert(3, ""), text({"]",
---           "lastmod: "}), func(date, {}), text({"",
---           "tags: ["}), insert(4), text({"]",
---           "comments: true",
---           "---", ""}),
---         insert(0)
---       }),
---   },
--- })
---
+vim.lsp.enable('pylsp')
+vim.lsp.enable('bashls')
+vim.lsp.enable('rust_analyzer')

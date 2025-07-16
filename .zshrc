@@ -136,6 +136,7 @@ alias ll='ls -alFrty'
 alias t=task
 alias v=nvim
 alias vi=nvim
+alias vim=nvim
 alias make='nice -n 5 make -j10'
 alias ..='cd ..'
 alias ...='cd ../..'
