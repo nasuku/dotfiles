@@ -45,13 +45,11 @@ end
 --- plugins ---
 ----------------
 require("lazy").setup({
-  {
-    'ntpeters/vim-better-whitespace'
-  },
+  { 'ntpeters/vim-better-whitespace' },
+  { "mcauley-penney/tidy.nvim" , config = true , },
   {
     'chrisbra/unicode.vim'
   },
-  -- { 'stevedylandev/flexoki-nvim', name = 'flexoki' },
   {
    "NLKNguyen/papercolor-theme",
    priority = 1000,
