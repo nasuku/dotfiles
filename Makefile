@@ -100,6 +100,7 @@ brew: /opt/homebrew/bin/brew
 	brew install neovim
 	brew install podman # extra docker
 	brew install kind # extra k3d
+	brew install mise
 
 /opt/homebrew/bin/brew:
 	 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -224,7 +225,7 @@ pytools:
 	pip3 install -U pdf.tocgen
 	pip3 install -U sqlite-utils
 
-mise-packages: brew
+mise-packages:
 	mise use -g go
 	mise use -g python
 

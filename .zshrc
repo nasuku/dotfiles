@@ -109,6 +109,7 @@ WORDCHARS="${WORDCHARS/\//}"
 "get aerial distance between lat lng pair" "dig A12.9352,77.6245/12.9698,77.7500.aerial @dns.toys"
 COMMENT
 alias dy='dig +short @dns.toys'
+alias rsync='rsync -avzE'
 
 alias ssh='ssh -oUserKnownHostsFile=/dev/null -o StrictHostKeyChecking=false'
 alias scp='scp -oUserKnownHostsFile=/dev/null -o StrictHostKeyChecking=false'
