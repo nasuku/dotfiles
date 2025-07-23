@@ -102,6 +102,8 @@ brew: /opt/homebrew/bin/brew
 	brew install podman # extra docker
 	brew install kind # extra k3d
 	brew install mise
+	brew install rsync # macos version is not good
+	brew install ffmpeg # extract audio only from video file
 
 /opt/homebrew/bin/brew:
 	 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
