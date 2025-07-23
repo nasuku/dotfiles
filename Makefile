@@ -75,6 +75,7 @@ brew: /opt/homebrew/bin/brew
 	brew install coreutils # gdate etc
 	brew install diff-so-fancy
 	brew install exiftool
+	brew install fd
 	brew install fzf
 	brew install git
 	brew install git-crypt
