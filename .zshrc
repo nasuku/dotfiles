@@ -61,6 +61,7 @@ load_files() {
     declare -a FILES=(
         /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
         /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+        ${HOME}/.zshrc.local
         #${HOME}/.zsh.d
         #${HOME}/.allsh.d # both for zsh and bash
         #${HOME}/.allsh.d.local # both for zsh and bash
