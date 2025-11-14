@@ -211,46 +211,6 @@ require("lazy").setup({
       local capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
       capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-      require("lspconfig").gopls.setup({
-        capabilities = capabilities,
-        flags = { debounce_text_changes = 200 },
-        settings = {
-          gopls = {
-            usePlaceholders = true,
-            gofumpt = true,
-            analyses = {
-              nilness = true,
-              unusedparams = true,
-              unusedwrite = true,
-              useany = true,
-            },
-            codelenses = {
-              gc_details = false,
-              generate = true,
-              regenerate_cgo = true,
-              run_govulncheck = true,
-              test = true,
-              tidy = true,
-              upgrade_dependency = true,
-              vendor = true,
-            },
-            experimentalPostfixCompletions = true,
-            completeUnimported = true,
-            staticcheck = true,
-            directoryFilters = { "-.git", "-node_modules" },
-            semanticTokens = true,
-            hints = {
-              assignVariableTypes = true,
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-          },
-        },
-      })
     end,
   },
 
@@ -698,7 +658,7 @@ vim.keymap.set('',',cd', ':cd %:p:h<cr>')
 vim.keymap.set("", "[q", ':cprevious<cr>')
 vim.keymap.set("", "]q", ':cnext<cr>')
 vim.keymap.set('','f',':HopChar2<cr>',{remap=true})
-
+vim.lsp.enable('gopls')
 vim.lsp.enable('pylsp')
 vim.lsp.enable('bashls')
 vim.lsp.enable('rust_analyzer')
