@@ -45,7 +45,7 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 # User configuration
 export HISTIGNORE="&:ls:exit"
 
-export PATH="$HOME/.bin:$HOME/go/bin:$PATH"
+export PATH="$HOME/.bin:$HOME/.local/bin:$HOME/go/bin:$PATH"
 export EDITOR="vim"
 export VISUAL="$EDITOR"
 export LC_ALL=en_US.UTF-8
@@ -129,7 +129,8 @@ alias d=docker
 alias g='rg -i.'
 alias gitroot='cd $(git rev-parse --show-toplevel)'
 alias hd='hexdump -C'
-alias k=kubectl
+alias k=kubectl --context="$KUBECTL_CONTEXT" --namespace="$KUBECTL_NAMESPACE"
+alias stern='stern --context="$KUBECTL_CONTEXT" --namespace="$KUBECTL_NAMESPACE"'
 alias kctx=kubectx
 alias kns=kubens
 alias ls='ls --color=auto'

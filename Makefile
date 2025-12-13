@@ -8,6 +8,7 @@ all: \
 	casks \
 	fonts \
 	dotfiles \
+	extra \
 	mise-packages  \
 	defaults-iterm
 
@@ -72,6 +73,7 @@ unused-brew:
 
 brew: /opt/homebrew/bin/brew
 	brew install bat
+	brew install csvtk
 	brew install coreutils # gdate etc
 	brew install diff-so-fancy
 	brew install exiftool
@@ -126,33 +128,6 @@ taps: /opt/homebrew/bin/brew
 	brew tap octave-app/octave-app
 	brew tap weaveworks/tap
 
-unused-casks: /opt/homebrew/bin/brew
-	#brew install adobe-digital-editions
-	#brew install alfred
-	#brew install appcleaner
-	#brew install atext
-	#brew install coconutbattery
-	#brew install devdocs
-	#brew install docker
-	#brew install dropbox
-	#brew install firefox
-	#brew install flux
-	#brew install flycut
-	#brew install goland
-	#brew install graphiql
-	#brew install notion
-	#brew install nvalt
-	#brew install octave-app
-	#brew install macfuse
-	#brew install postman
-	#brew install pycharm-ce
-	#brew install slack
-	#brew install slate
-	#brew install vlc
-	#brew install vnc-viewer
-	#brew install whatsapp
-	#brew install utm
-
 casks: /opt/homebrew/bin/brew
 	brew install hammerspoon
 	brew install iterm2
@@ -167,6 +142,7 @@ fonts: /opt/homebrew/bin/brew
 	# brew install font-anonymous-pro
 	brew install font-iosevka-nerd-font
 	brew install font-hack-nerd-font
+	brew install font-anonymice-nerd-font
 
 zsh: /opt/homebrew/bin/brew
 	# install oh-my-zsh
@@ -207,6 +183,9 @@ defaults-iterm:
 
 dotfiles: $(DOTFILES)
 
+extra:
+	cd ~ && mkdir -p ~/.local/bin
+
 ~/.ssh/config:
 	cp ssh_config ~/.ssh/config
 
@@ -231,6 +210,7 @@ pytools:
 mise-packages:
 	mise use -g go
 	mise use -g python
+	mise use -g stern
 
 powerlevel10k:
 	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
