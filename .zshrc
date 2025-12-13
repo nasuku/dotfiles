@@ -51,9 +51,10 @@ export VISUAL="$EDITOR"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LC_COLLATE=C
-export MANPATH=$HOMEBREW_PREFIX/share/man:$MANPATH
+export MANPATH=$HOMEBREW_PREFIX/share/man:$MANPATH:$HOME/.local/share/man
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export RIPGREP_CONFIG_PATH=~/.ripgreprc
+export DYLD_LIBRARY_PATH=~/.local/lib
 
 export LSCOLORS=GxFxCxDxCxegedabagaced
 
